@@ -10,7 +10,7 @@ interface WorkOrderComponent {
     void Display(int indent);
     public String getName();
 }
-//This is the "Leaf".
+
 class SubWorkOrder implements WorkOrderComponent {
     private String name;
     private ArrayList<Document> documents;
