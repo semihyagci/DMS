@@ -20,8 +20,13 @@ abstract class Document {
     //Template Method
     public void checkingDocument(){
         Boolean status= verifyAllFields() && verifyIsSigned();
+        if (status){
         sendToManager();
         Notify();
+        }
+        else{
+            System.out.println("Rejected workorder");
+        }
     }
 
     //factory method
@@ -33,12 +38,44 @@ abstract class Document {
         return isSignedByWorker;
     }
 
-    public String getName(){
-        return name;
+    public boolean isSignedByWorker() {
+        return isSignedByWorker;
     }
 
-    public String getType(){
-        return type;
+    public void setSignedByWorker(boolean signedByWorker) {
+        isSignedByWorker = signedByWorker;
+    }
+
+    public boolean isSignedByManager() {
+        return isSignedByManager;
+    }
+
+    public void setSignedByManager(boolean signedByManager) {
+        isSignedByManager = signedByManager;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
     }
 
     public void Attach (User user) {
