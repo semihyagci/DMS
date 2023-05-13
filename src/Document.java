@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-abstract class Document {
+abstract class Document{
     //Subject of Observer(User)
     protected boolean isSignedByWorker;
     protected boolean isSignedByManager;
@@ -15,18 +15,6 @@ abstract class Document {
         this.name=name;
         this.address=address;
         this.type=type;
-    }
-
-    //Template Method
-    public void checkingDocument(){
-        Boolean status= verifyAllFields() && verifyIsSigned();
-        if (status){
-        sendToManager();
-        Notify();
-        }
-        else{
-            System.out.println("Rejected workorder");
-        }
     }
 
     //factory method
@@ -90,7 +78,7 @@ abstract class Document {
             }
         }
     }
-
+    //sends update modify to users.
     public void Notify() {
         for (int i = 0; i < users.size(); i++) {
             users.get(i).Update(this);
@@ -101,7 +89,7 @@ abstract class Document {
 
     }
 }
-
+//concrete class of Template.
 class ConcreteDocument extends Document {
     public ConcreteDocument(String type,String name,String address) {
         super(type,name,address);
@@ -121,7 +109,6 @@ class ConcreteDocument extends Document {
     protected void sendToManager() {
 
     }
-
 
     @Override
     public void hook() {

@@ -20,7 +20,7 @@ public class User {
         //Update fields in here to show user
     }
 
-    //Invoker
+    //Invoker // Sends user's command to execute
     public void sendWorkOrder(Command command){
         command.Execute();
         _commands.add(command);

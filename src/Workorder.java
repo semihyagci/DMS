@@ -1,10 +1,12 @@
-import javax.print.Doc;
 import java.util.ArrayList;
 
 //Composite Pattern
 // This is the "Component". (i.e tree node.)
 interface WorkOrderComponent {
-    void Add(WorkOrderComponent d);
+    static void Add(WorkOrderComponent d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Add'");
+    }
 
     void Remove(WorkOrderComponent d);
 
@@ -22,6 +24,7 @@ interface Command {
 }
 
 class SubWorkOrder implements WorkOrderComponent, Command {
+    private ArrayList<WorkOrderComponent> elements = new ArrayList<WorkOrderComponent>();
     private String name;
     private Department department;
     private ArrayList<Document> documents;
@@ -57,8 +60,6 @@ class SubWorkOrder implements WorkOrderComponent, Command {
             elements.get(i).Display(indent + 2);
         }
     }
-
-    private ArrayList<WorkOrderComponent> elements = new ArrayList<WorkOrderComponent>();
 
     @Override
     public void Execute() {
