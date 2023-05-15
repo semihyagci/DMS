@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 public class User extends People implements Observer{
+    private boolean isSignedByManagerInstance;
+    private String documentName;
+
     public User(String name, int age, String address) {
         super(name, age, address);
     }
@@ -8,6 +11,9 @@ public class User extends People implements Observer{
     //Observer
     public void Update(Document document) {
         //Update fields in here to show user
+        documentName=document.getName();
+        isSignedByManagerInstance=document.isSignedByManager();
+        System.out.println("Your application with the document name of "+documentName+" has been approved!");
     }
 
     //Invoker

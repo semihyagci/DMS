@@ -58,6 +58,10 @@ class Document implements Component{
             return name;
         }
 
+        public boolean isSignedByManager() {
+            return isSignedByManager;
+        }
+
         public void setSignedByWorker(boolean b) {
             isSignedByWorker=true;
         }
