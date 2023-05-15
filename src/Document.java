@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
-abstract class Document {
     //Subject of Observer(User)
+abstract class Document {
+
     protected boolean isSignedByWorker;
     protected boolean isSignedByManager;
     protected String type;
@@ -17,17 +18,6 @@ abstract class Document {
         this.type=type;
     }
 
-    //Template Method
-    public void checkingDocument(){
-        Boolean status= verifyAllFields() && verifyIsSigned();
-        if (status){
-        sendToManager();
-        Notify();
-        }
-        else{
-            System.out.println("Rejected workorder");
-        }
-    }
 
     //factory method
     protected abstract Document createDocument(String type,String name,String address);
@@ -97,35 +87,6 @@ abstract class Document {
         }
     }
 
-    public void hook(){
-
-    }
 }
 
-class ConcreteDocument extends Document {
-    public ConcreteDocument(String type,String name,String address) {
-        super(type,name,address);
-    }
-
-    @Override
-    protected Document createDocument(String type,String name,String address) {
-        return new ConcreteDocument(type,name,address);
-    }
-
-    @Override
-    protected Boolean verifyAllFields() {
-        return null;
-    }
-
-    @Override
-    protected void sendToManager() {
-
-    }
-
-
-    @Override
-    public void hook() {
-        // for hooking
-    }
-}
 
