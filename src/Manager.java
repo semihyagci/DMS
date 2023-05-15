@@ -4,6 +4,7 @@ public class Manager extends People{
     }
 
     public void signingByManager(Document document){
+        System.out.println("Your application is signing by Manager right now.");
         document.setSignedByManager(true);
     }
 }
