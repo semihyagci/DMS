@@ -13,8 +13,8 @@ class WorkOrder implements Component, Command {
         this.department = department;
     }
 
-    public WorkOrder createWorkOrder(String name,ArrayList<Document> docs,Department department ){
-        return new WorkOrder(name,docs,department);
+    public WorkOrder createWorkOrder(String name, ArrayList<Document> docs, Department department) {
+        return new WorkOrder(name, docs, department);
     }
 
     public String getName() {
