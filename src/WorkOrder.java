@@ -14,7 +14,7 @@ class WorkOrder implements Component, Command {
     public WorkOrder(String name, ArrayList<Document> docs, Department department) {
         this.name = name;
         this.documents = docs;
-        this.department=department;
+        this.department = department;
     }
 
     public void Add(Component d) {
@@ -45,8 +45,4 @@ class WorkOrder implements Component, Command {
         department.Action(documents);
     }
 
-    @Override
-    public void UnExecute() {
-
-    }
 }

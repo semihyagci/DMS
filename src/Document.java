@@ -10,6 +10,8 @@ class Document implements Component{
     protected String address;
     protected ArrayList<User> users = new ArrayList<User>();
 
+
+
     public Document(String type,String name,String address) {
         this.isSignedByWorker=false;
         this.isSignedByManager=false;
@@ -54,6 +56,22 @@ class Document implements Component{
         @Override
         public String getName() {
             return name;
+        }
+
+        public void setSignedByWorker(boolean b) {
+            isSignedByWorker=true;
+        }
+
+        public Boolean verifyAllFields() {
+            return (name!=null)&&(type!=null)&&(address!=null);
+        }
+
+        public boolean verifyIsSigned() {
+            return isSignedByWorker;
+        }
+
+        public void setSignedByManager(boolean b) {
+            isSignedByManager=b;
         }
     }
 
