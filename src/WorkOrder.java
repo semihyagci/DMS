@@ -7,14 +7,18 @@ class WorkOrder implements Component, Command {
     private ArrayList<Document> documents;
     private ArrayList<Component> elements = new ArrayList<Component>();
 
-    public String getName() {
-        return name;
-    }
-
     public WorkOrder(String name, ArrayList<Document> docs, Department department) {
         this.name = name;
         this.documents = docs;
         this.department = department;
+    }
+
+    public WorkOrder createWorkOrder(String name,ArrayList<Document> docs,Department department ){
+        return new WorkOrder(name,docs,department);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void Add(Component d) {

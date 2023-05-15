@@ -12,6 +12,7 @@ public class DMS {
  public void createApplication(User user, Document document,Department department){
   ArrayList a= new ArrayList<Document>();
   a.add(document);
+  document.Attach(user);
   user.sendWorkOrder(new WorkOrder("Vacation Request",a,department));
  }
 }

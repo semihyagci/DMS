@@ -26,6 +26,9 @@ class Document implements Component{
         return new Document(type,name,address);
     }
 
+  public void Attach(User user){
+        users.add(user);
+  }
 
     public void Detach (User user) {
         for (int i = 0; i< users.size(); i++) {
@@ -45,9 +48,10 @@ class Document implements Component{
     public void Add(Component c) {
         System.out.println("Cannot add to a document.");
     }
-        public  void Remove(Component c) {
+    public  void Remove(Component c) {
             System.out.println("Cannot remove from a document.");
         }
+
         public void Display(int indent) {
             for(int i = 1;i <= indent;i++) 	System.out.print("-");
             System.out.println(" "  + name);
