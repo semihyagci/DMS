@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
 // This is the "Composite"
-class WorkOrder implements WorkOrderComponent, Command {
+class WorkOrder implements Component, Command {
     private String name;
     private Department department;
     private ArrayList<Document> documents;
+    private ArrayList<Component> elements = new ArrayList<Component>();
 
     public String getName() {
         return name;
@@ -16,12 +17,12 @@ class WorkOrder implements WorkOrderComponent, Command {
         this.department=department;
     }
 
-    public void Add(WorkOrderComponent d) {
+    public void Add(Component d) {
         elements.add(d);
     }
 
 
-    public void Remove(WorkOrderComponent d) {
+    public void Remove(Component d) {
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).getName() == d.getName()) {
                 elements.remove(i);
@@ -38,8 +39,6 @@ class WorkOrder implements WorkOrderComponent, Command {
             elements.get(i).Display(indent + 2);
         }
     }
-
-    private ArrayList<WorkOrderComponent> elements = new ArrayList<WorkOrderComponent>();
 
     @Override
     public void Execute() {

@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class User extends People implements Observer{
     public User(String name, int age, String address) {
         super(name, age, address);

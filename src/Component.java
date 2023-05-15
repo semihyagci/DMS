@@ -1,8 +1,8 @@
 //Composite Pattern
 // This is the "Component". (i.e tree node.)
-interface WorkOrderComponent {
-    void Add(WorkOrderComponent d);
-    void Remove(WorkOrderComponent d);
+interface Component {
+    void Add(Component d);
+    void Remove(Component d);
     void Display(int indent);
     public String getName();
 }

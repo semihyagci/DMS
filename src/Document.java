@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
     //Subject of Observer(User)
-abstract class Document {
-
+    //This is also a leaf node of an composite structure
+class Document implements Component{
     protected boolean isSignedByWorker;
     protected boolean isSignedByManager;
     protected String type;
@@ -20,57 +20,10 @@ abstract class Document {
 
 
     //factory method
-    protected abstract Document createDocument(String type,String name,String address);
-    protected abstract Boolean verifyAllFields();
-    protected abstract void sendToManager();
-
-    public boolean verifyIsSigned() {
-        return isSignedByWorker;
+    public Document createDocument(String type,String name,String address){
+        return new Document(type,name,address);
     }
 
-    public boolean isSignedByWorker() {
-        return isSignedByWorker;
-    }
-
-    public void setSignedByWorker(boolean signedByWorker) {
-        isSignedByWorker = signedByWorker;
-    }
-
-    public boolean isSignedByManager() {
-        return isSignedByManager;
-    }
-
-    public void setSignedByManager(boolean signedByManager) {
-        isSignedByManager = signedByManager;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public ArrayList<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
-    }
-
-    public void Attach (User user) {
-        users.add(user);
-    }
 
     public void Detach (User user) {
         for (int i = 0; i< users.size(); i++) {
@@ -87,6 +40,21 @@ abstract class Document {
         }
     }
 
-}
+    public void Add(Component c) {
+        System.out.println("Cannot add to a document.");
+    }
+        public  void Remove(Component c) {
+            System.out.println("Cannot remove from a document.");
+        }
+        public void Display(int indent) {
+            for(int i = 1;i <= indent;i++) 	System.out.print("-");
+            System.out.println(" "  + name);
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+    }
 
 
