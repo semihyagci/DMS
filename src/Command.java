@@ -1,5 +1,5 @@
 //"Command"
 
 interface Command {
-    void Execute();
+    public void Execute();
 }

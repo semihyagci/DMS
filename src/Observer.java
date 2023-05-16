@@ -1,3 +1,3 @@
 interface Observer {
-    void Update(Document document);
+    public void Update(Document document);
 }
