@@ -8,12 +8,12 @@ public class DMS {
     public DMS() {
     }
 
-    public void createApplicationForVacation(User user, Document document){
-        System.out.println("Hello "+user.getName()+" welcome to Document Management System...");
-        ArrayList<Document> a= new ArrayList<Document>();
+    public void createApplicationForVacation(User user, Document document) {
+        System.out.println("Hello " + user.getName() + " welcome to Document Management System...");
+        ArrayList<Document> a = new ArrayList<Document>();
         a.add(document);
         document.Attach(user);
-        user.sendWorkOrder(new VacationApplicationWorkOrder("Vacation Request",a));
+        user.sendWorkOrder(new VacationApplicationWorkOrder("Vacation Request", a));
     }
 
 }

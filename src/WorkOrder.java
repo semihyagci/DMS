@@ -43,12 +43,12 @@ class WorkOrder implements Component, Command {
 
     @Override
     public void Execute() {
-        for (int i=0;i<departments.size();i++) {
+        for (int i = 0; i < departments.size(); i++) {
             departments.get(i).Action(documents);
-            if (departments.get(i).equals(departments.lastElement())){
+            if (departments.get(i).equals(departments.lastElement())) {
                 break;
             }
-            System.out.println("Your application forwarded to "+departments.get(i+1).getDepartmentName()+ " for approval.");
+            System.out.println("Your application forwarded to " + departments.get(i + 1).getDepartmentName() + " for approval.");
             System.out.println();
         }
     }

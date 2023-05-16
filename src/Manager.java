@@ -16,7 +16,8 @@ public class Manager extends People {
             if (sign == 1) {
                 document.setSignedByManager(true);
                 break;
-            } if (sign == 0) {
+            }
+            if (sign == 0) {
                 document.setSignedByManager(false);
                 break;
             } else {
