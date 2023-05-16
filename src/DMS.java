@@ -5,26 +5,15 @@ import java.util.Stack;
 //This class as a work engine will route the
 //work order from one department into another
 public class DMS {
-    private static Stack<Department> departments = new Stack<Department>();
-    DMS(Stack<Department> departments){
-        DMS.departments = departments;
+    public DMS() {
     }
 
-    public static boolean IsTransmitted(Document document){
-        boolean transmitted = false;
-        for (int i=0; i< departments.size();i++){
-            if (document.isSignedByManager) {
-                transmitted = true;
-                break;
-            }
-        }
-        return transmitted;
-    }
-    public void createApplication(User user, Document document, Stack<Department> departments){
+    public void createApplicationForVacation(User user, Document document){
         System.out.println("Hello "+user.getName()+" welcome to Document Management System...");
         ArrayList<Document> a= new ArrayList<Document>();
         a.add(document);
         document.Attach(user);
-        user.sendWorkOrder(new WorkOrder("Vacation Request",a,departments));
+        user.sendWorkOrder(new VacationApplicationWorkOrder("Vacation Request",a));
     }
+
 }

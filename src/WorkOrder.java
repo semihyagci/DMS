@@ -3,20 +3,16 @@ import java.util.Stack;
 
 // This is the "Composite"
 class WorkOrder implements Component, Command {
-    private String name;
-    private Stack<Department> departments;
-    private ArrayList<Document> documents;
-    private ArrayList<Component> elements = new ArrayList<Component>();
+    protected String name;
+    protected Stack<Department> departments;
+    protected ArrayList<Document> documents;
+    protected ArrayList<Component> elements = new ArrayList<Component>();
 
-    public WorkOrder(String name, ArrayList<Document> docs, Stack<Department> departments) {
+    public WorkOrder(String name, ArrayList<Document> docs) {
         this.name = name;
         this.documents = docs;
-        this.departments = departments;
     }
 
-    public WorkOrder createWorkOrder(String name,ArrayList<Document> docs,Stack<Department> departments){
-        return new WorkOrder(name,docs,departments);
-    }
 
     public String getName() {
         return name;
@@ -50,7 +46,6 @@ class WorkOrder implements Component, Command {
         for (int i=0;i<departments.size();i++) {
             departments.get(i).Action(documents);
             if (departments.get(i).equals(departments.lastElement())){
-                System.out.println("YOUR APPLICATION APPROVED");
                 break;
             }
             System.out.println("Your application forwarded to "+departments.get(i+1).getDepartmentName()+ " for approval.");

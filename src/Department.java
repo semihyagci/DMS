@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 abstract public class Department {
-    //protected DMS dms;
     protected String departmentName;
     protected Manager manager;
 
@@ -18,13 +17,13 @@ abstract public class Department {
         return departmentName;
     }
 
+
     public void Action(ArrayList<Document> documents) {
         for (int i=0;i<documents.size();i++) {
-
             Boolean status= documents.get(i).verifyAllFields();
             if (status){
                 manager.signingByManager(documents.get(i));
-                if (DMS.IsTransmitted(documents.get(i)))
+                if (documents.get(i).isSignedByManager())
                     documents.get(i).Notify();
                 else{
                     System.out.println("Rejected work order. Apply again by editing your document. ");
@@ -37,14 +36,14 @@ abstract public class Department {
 }
 
 class EngineeringDepartment extends Department{
-    public EngineeringDepartment(String departmentName, Manager manager,DMS dms) {
+    public EngineeringDepartment(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
 class EngineeringDeanery extends Department{
-    public EngineeringDeanery(String departmanName, Manager manager,DMS dms){super(departmanName,manager);}
+    public EngineeringDeanery(String departmanName, Manager manager){super(departmanName,manager);}
 }
 class Rectorate extends Department{
-    public Rectorate(String departmanName, Manager manager,DMS dms){super(departmanName,manager);}
+    public Rectorate(String departmanName, Manager manager){super(departmanName,manager);}
 }
 

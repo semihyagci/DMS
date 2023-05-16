@@ -3,7 +3,6 @@ import java.util.ArrayList;
 //Subject of Observer(User)
 //This is also a leaf node of an composite structure
 class Document implements Component{
-
     protected boolean isSignedByManager;
     protected String type;
     protected String name;
@@ -71,8 +70,8 @@ class Document implements Component{
 
 
 
-    public void setSignedByManager(boolean b) {
-        isSignedByManager=b;
+    public void setSignedByManager(boolean sign) {
+        isSignedByManager=sign;
     }
 }
 
