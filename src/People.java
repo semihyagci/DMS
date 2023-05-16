@@ -1,7 +1,7 @@
 abstract public class People {
-    protected String name;
-    protected int age;
-    protected String address;
+    private String name;
+    private int age;
+    private String address;
 
     public People(String name, int age, String address) {
         this.name = name;
@@ -13,11 +13,23 @@ abstract public class People {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getAge() {
         return age;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
