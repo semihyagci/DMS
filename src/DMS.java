@@ -5,12 +5,12 @@ import java.util.Stack;
 //This class as a work engine will route the
 //work order from one department into another
 public class DMS {
-    private Stack<Department> departments = new Stack<Department>();
+    private static Stack<Department> departments = new Stack<Department>();
     DMS(Stack<Department> departments){
-        this.departments = departments;
+        DMS.departments = departments;
     }
 
-    public boolean IsTransmitted(Document document){
+    public static boolean IsTransmitted(Document document){
         boolean transmitted = false;
         for (int i=0; i< departments.size();i++){
             if (document.isSignedByManager) {
