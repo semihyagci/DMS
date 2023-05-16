@@ -1,20 +1,21 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 // This is the "Composite"
 class WorkOrder implements Component, Command {
     private String name;
-    private Department department;
+    private Stack<Department> departments;
     private ArrayList<Document> documents;
     private ArrayList<Component> elements = new ArrayList<Component>();
 
-    public WorkOrder(String name, ArrayList<Document> docs, Department department) {
+    public WorkOrder(String name, ArrayList<Document> docs, Stack<Department> departments) {
         this.name = name;
         this.documents = docs;
-        this.department = department;
+        this.departments = departments;
     }
 
-    public WorkOrder createWorkOrder(String name,ArrayList<Document> docs,Department department ){
-        return new WorkOrder(name,docs,department);
+    public WorkOrder createWorkOrder(String name,ArrayList<Document> docs,Stack<Department> departments){
+        return new WorkOrder(name,docs,departments);
     }
 
     public String getName() {
@@ -46,7 +47,14 @@ class WorkOrder implements Component, Command {
 
     @Override
     public void Execute() {
-        department.Action(documents);
+        for (int i=0;i<departments.size();i++) {
+            departments.get(i).Action(documents);
+            if (departments.get(i).equals(departments.lastElement())){
+                System.out.println("YOUR APPLICATION APPROVED");
+                break;
+            }
+            System.out.println("Your application forwarded to "+departments.get(i+1).getDepartmentName()+ " for approval.");
+            System.out.println();
+        }
     }
-
 }

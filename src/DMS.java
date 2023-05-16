@@ -1,18 +1,30 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
+//Facade
+//This class as a work engine will route the
+//work order from one department into another
 public class DMS {
- public static void main(String[] args) {
-    DMS dms= new DMS();
-    User user= new User("Semih",19,"Buca");
-    EngineeringDepartment department= new EngineeringDepartment("Software Engineering Department",new Manager("Senem Kumova Metin",29,"Balcova"));
-    Document document= new Document("PDF","Vacation Application",user.getAddress());
+    private Stack<Department> departments = new Stack<Department>();
+    DMS(Stack<Department> departments){
+        this.departments = departments;
+    }
 
-    dms.createApplication(user,document,department);
- }
- public void createApplication(User user, Document document,Department department){
-  ArrayList a= new ArrayList<Document>();
-  a.add(document);
-  document.Attach(user);
-  user.sendWorkOrder(new WorkOrder("Vacation Request",a,department));
- }
+    public boolean IsTransmitted(Document document){
+        boolean transmitted = false;
+        for (int i=0; i< departments.size();i++){
+            if (document.isSignedByManager) {
+                transmitted = true;
+                break;
+            }
+        }
+        return transmitted;
+    }
+    public void createApplication(User user, Document document, Stack<Department> departments){
+        System.out.println("Hello "+user.getName()+" welcome to Document Management System...");
+        ArrayList<Document> a= new ArrayList<Document>();
+        a.add(document);
+        document.Attach(user);
+        user.sendWorkOrder(new WorkOrder("Vacation Request",a,departments));
+    }
 }
