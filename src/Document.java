@@ -148,8 +148,8 @@ class DocumentFactory {
             if (format.equalsIgnoreCase("pDf")) {
                 return new PDFDocument(format, name, address);
             } else {
-                System.out.print("Unsupported document format. Please enter a valid format (Word, PDF): ");
-                format = scan.next();
+                System.out.println("Unsupported document format. Please enter a valid format. ");
+
             }
         }
     }
