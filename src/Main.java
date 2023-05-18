@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("***Document Management System***");
@@ -11,8 +13,15 @@ public class Main {
         Document document1 = documentFactory.createDocument("PDF","Vocation Application PDF", user.getAddress());
         Document document2 = documentFactory.createDocument("CSV","TryDcoument","uasdfds");*/
 
-        dms.createApplicationForVacation(user, documentFactory.createDocument("Vocation Application", user.getAddress()));
-        dms.createApplicationForVacation(user1,documentFactory.createDocument("Vocation Application 2", user.getAddress()));
+        Document doc1= documentFactory.createDocument("Vacation Application", user.getAddress());
+        Document doc2= documentFactory.createDocument("Vacation Application Doc2", user.getAddress());
+
+        ArrayList<Document> docs= new ArrayList<>();
+        docs.add(doc1);
+        docs.add(doc2);
+
+        dms.createApplicationForVacation(user, docs);
+        dms.createApplicationForVacation(user1,docs);
 
     }
 }

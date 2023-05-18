@@ -6,11 +6,12 @@ class WorkOrder implements Component, Command {
     protected String name;
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
-    protected ArrayList<Component> elements = new ArrayList<Component>();
+    protected ArrayList<Component> elements;
 
     public WorkOrder(String name, ArrayList<Document> docs) {
         this.name = name;
         this.documents = docs;
+        elements=new ArrayList<>();
     }
 
 

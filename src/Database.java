@@ -2,8 +2,11 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Database {
-    private ArrayList<Document> documents =new ArrayList<>();
+    private ArrayList<Document> documents;
 
+    public Database() {
+        documents= new ArrayList<>();
+    }
 
     public static Stack<Department> createDepartmentsForVacationApplication(){
         Stack<Department> departments = new Stack<Department>();
@@ -13,7 +16,6 @@ public class Database {
         departments.add(softwareEngineeringDepartment);
         departments.add(engineeringDeanery);
         departments.add(rectorate);
-
         return departments;
     }
 
@@ -29,13 +31,4 @@ public class Database {
         return departments;
     }
 
-    public static Document createApplicationDocument(Department department){
-        if (department.getDepartmentName().equals("Software Engineering Department")){
-            return new WordDocument("WORD","Vacation Application Document","w");
-        }
-        else if (department.getDepartmentName().equals("EYT")){
-            return new PDFDocument("PDF","EYT Application Document","w");
-        }
-        return null;
-    }
 }
