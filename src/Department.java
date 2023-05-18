@@ -23,9 +23,9 @@ abstract public class Department {
             Boolean status = documents.get(i).verifyAllFields();
             if (status) {
                 manager.signingByManager(documents.get(i));
-                if (documents.get(i).isSignedByManager())
+                if (documents.get(i).isSignedByManager()){
                     documents.get(i).Notify();
-                else {
+                } else {
                     System.out.println("Rejected work order. Apply again by editing your document. ");
                     System.exit(0);
                 }

@@ -14,6 +14,7 @@ public class Manager extends People {
         sign = scan.nextInt();
         while (true) {
             if (sign == 1) {
+                System.out.println("Signed for " + document.getType());
                 document.setSignedByManager(true);
                 break;
             }

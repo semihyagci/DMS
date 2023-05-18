@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Stack;
 
 //Facade
@@ -9,7 +10,7 @@ public class DMS {
     }
 
     public void createApplicationForVacation(User user, Document document) {
-        System.out.println("Hello " + user.getName() + " welcome to Document Management System...");
+        System.out.println("Hello " + user.getName() + " welcome to DMS...");
         ArrayList<Document> a = new ArrayList<Document>();
         a.add(document);
         document.Attach(user);

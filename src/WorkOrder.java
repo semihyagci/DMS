@@ -46,6 +46,7 @@ class WorkOrder implements Component, Command {
         for (int i = 0; i < departments.size(); i++) {
             departments.get(i).Action(documents);
             if (departments.get(i).equals(departments.lastElement())) {
+                System.out.println();
                 break;
             }
             System.out.println("Your application forwarded to " + departments.get(i + 1).getDepartmentName() + " for approval.");

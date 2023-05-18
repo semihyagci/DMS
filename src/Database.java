@@ -31,10 +31,10 @@ public class Database {
 
     public static Document createApplicationDocument(Department department){
         if (department.getDepartmentName().equals("Software Engineering Department")){
-            return new Document("WORD","Vacation Application Document","w");
+            return new WordDocument("WORD","Vacation Application Document","w");
         }
         else if (department.getDepartmentName().equals("EYT")){
-            return new Document("PDF","EYT Application Document","w");
+            return new PDFDocument("PDF","EYT Application Document","w");
         }
         return null;
     }
