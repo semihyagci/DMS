@@ -5,6 +5,7 @@ public class Main {
         System.out.println("***  Document Management System  ***\n");
         DMS dms = new DMS();
         User user = new User("Semih", 19, "Buca");
+        System.out.println("Hello " + user.getName() + " welcome to DMS...\n");
 
         DocumentFactory documentFactory = new DocumentFactory();
 

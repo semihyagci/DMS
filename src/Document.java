@@ -116,7 +116,7 @@ class PDFDocument extends Document {
 
     @Override
     public void storeSignedFile(Document document) {
-        System.out.println("The signed PDF document is storing in the central database...");
+        System.out.println("The signed PDF document is storing in the central database...\n");
         Database.storeSignedWordDocument(document);
     }
 }
