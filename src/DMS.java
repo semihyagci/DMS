@@ -10,8 +10,8 @@ public class DMS {
     }
 
     public void createApplicationForVacation(User user, ArrayList<Document> documents) {
-        System.out.println("Hello " + user.getName() + " welcome to DMS...");
-        for (int i=0;i<documents.size();i++){
+        System.out.println("Hello " + user.getName() + " welcome to DMS...\n");
+        for (int i = 0; i < documents.size(); i++) {
             documents.get(i).Attach(user);
         }
         user.sendWorkOrder(new VacationApplicationWorkOrder("Vacation Request", documents));

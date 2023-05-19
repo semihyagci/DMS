@@ -1,6 +1,8 @@
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//subject of observer(user)
 public abstract class Document implements Component {
     protected boolean isSignedByManager;
     protected String name;
@@ -10,7 +12,8 @@ public abstract class Document implements Component {
     public Document(String name, String address) {
         this.name = name;
         this.address = address;
-        isSignedByManager=false;
+        users = new ArrayList<>();
+        isSignedByManager = false;
     }
 
     public void Attach(User user) {
@@ -59,8 +62,14 @@ public abstract class Document implements Component {
 
     abstract public void setSignedByManager(boolean sign);
 
+    abstract public void storeSignedFile(Document document);
+
     public String getName() {
         return name;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }
 
@@ -72,12 +81,19 @@ class WordDocument extends Document {
 
     @Override
     public void setSignedByManager(boolean sign) {
-        if (sign){
-            System.out.println("The WORD document with the name of "+name+" is signed by the manager.");
-        }else{
-            System.out.println("The WORD document is rejected by the manager.");
+        if (sign) {
+            System.out.println("The WORD document with the name of " + name + " is signed by the manager.\n");
+            storeSignedFile(this);
+        } else {
+            System.out.println("The WORD document is rejected by the manager.\n");
         }
-        isSignedByManager=sign;
+        isSignedByManager = sign;
+    }
+
+    @Override
+    public void storeSignedFile(Document document) {
+        System.out.println("The signed WORD document is storing in the central database...");
+        Database.storeSignedWordDocument(document);
     }
 
 }
@@ -89,12 +105,19 @@ class PDFDocument extends Document {
 
     @Override
     public void setSignedByManager(boolean sign) {
-        if (sign){
-        System.out.println("The PDF document with the name of "+name+" is signed by the manager.");
-        }else{
-            System.out.println("The PDF document is rejected by the manager.");
+        if (sign) {
+            System.out.println("The PDF document with the name of " + name + " is signed by the manager.\n");
+            storeSignedFile(this);
+        } else {
+            System.out.println("The PDF document is rejected by the manager.\n");
         }
-        isSignedByManager=sign;
+        isSignedByManager = sign;
+    }
+
+    @Override
+    public void storeSignedFile(Document document) {
+        System.out.println("The signed PDF document is storing in the central database...");
+        Database.storeSignedWordDocument(document);
     }
 }
 
@@ -103,6 +126,7 @@ class DocumentFactory {
     }
 
     Scanner scan = new Scanner(System.in);
+
     public Document createDocument(String name, String address) {
         while (true) {
             System.out.print("Please specify the format of your document for the application: ");
@@ -113,8 +137,7 @@ class DocumentFactory {
             if (format.equalsIgnoreCase("pDf")) {
                 return new PDFDocument(name, address);
             } else {
-                System.out.println("Unsupported document format. Please enter a valid format. ");
-
+                System.out.println("Unsupported document format. Please enter a valid format. \n");
             }
         }
     }
