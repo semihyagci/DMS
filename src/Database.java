@@ -28,7 +28,7 @@ public class Database {
         return getVacationDepartments;
     }
 
-    public static Stack<Department> createDepartmentsForVacationApplication() {
+    public static Stack<Department> createAdministrationDepartmentsForVacationApplication() {
 
         Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin", 29, "Balcova"));
         Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin", 45, "Balcova"));
