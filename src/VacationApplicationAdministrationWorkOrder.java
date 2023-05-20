@@ -1,6 +1,6 @@
-public class VacationApplicationWorkOrder extends WorkOrder {
+public class VacationApplicationAdministrationWorkOrder extends WorkOrder {
 
-    public VacationApplicationWorkOrder(String name,User user) {
+    public VacationApplicationAdministrationWorkOrder(String name, User user) {
         super(name,user);
         departments = Database.createDepartmentsForVacationApplication();
         documents= Database.createDocumentsForVacationApplication(user);

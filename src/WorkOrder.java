@@ -6,7 +6,7 @@ class WorkOrder implements Component, Command {
     protected String name;
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
-    protected ArrayList<Component> elements;
+    protected ArrayList<Component> elements = new ArrayList<Component>();
 
     protected User workorderCreator;
 
@@ -14,6 +14,8 @@ class WorkOrder implements Component, Command {
         this.name = name;
         this.workorderCreator=workorderCreator;
         elements = new ArrayList<>();
+        departments = Database.getVacationDepartments;
+        documents = Database.getVacationDocuments;
     }
 
 

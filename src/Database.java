@@ -3,6 +3,10 @@ import java.util.Stack;
 
 public class Database {
     public static ArrayList<Document> signedDocuments = new ArrayList<>();
+    public static ArrayList<Document> getVacationDocuments = new ArrayList<>();
+    public static Stack<Department> getVacationDepartments = new Stack<>();
+    public static ArrayList<Document> getEYTDocuments = new ArrayList<>();
+    public static Stack<Department> getEYTDepartments = new Stack<>();
 
     public Database() {
     }
@@ -18,28 +22,33 @@ public class Database {
             signedDocuments.add(document);
         }
     }
-
-    public static Stack<Department> createDepartmentsForVacationApplication() {
-        Stack<Department> departments = new Stack<Department>();
-        Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin", 29, "Balcova"));
-        Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin", 45, "Balcova"));
-        Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar", 70, "Balcova"));
-        departments.add(softwareEngineeringDepartment);
-        departments.add(engineeringDeanery);
-        departments.add(rectorate);
-        return departments;
+    public static Stack<Department> createHrDepartmentsForVacationApplication() {
+        Department hr = new HumanResources("Human Resources", new Manager("Didem Tiknaz", 29, "Balcova"));
+        getVacationDepartments.add(hr);
+        return getVacationDepartments;
     }
 
-    public static Stack<Department> createDepartmentsForEYTApplication() {
-        Stack<Department> departments = new Stack<Department>();
+    public static Stack<Department> createDepartmentsForVacationApplication() {
+
         Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin", 29, "Balcova"));
         Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin", 45, "Balcova"));
         Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar", 70, "Balcova"));
-        departments.add(softwareEngineeringDepartment);
-        departments.add(engineeringDeanery);
-        departments.add(rectorate);
 
-        return departments;
+        getVacationDepartments.add(softwareEngineeringDepartment);
+        getVacationDepartments.add(engineeringDeanery);
+        getVacationDepartments.add(rectorate);
+        return getVacationDepartments;
+    }
+
+
+    public static Stack<Department> createDepartmentsForEYTApplication() {
+        Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin", 29, "Balcova"));
+        Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin", 45, "Balcova"));
+        Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar", 70, "Balcova"));
+        getEYTDepartments.add(softwareEngineeringDepartment);
+        getEYTDepartments.add(engineeringDeanery);
+        getEYTDepartments.add(rectorate);
+        return getEYTDepartments;
     }
 
     public static ArrayList<Document> createDocumentsForVacationApplication(User user) {
@@ -47,10 +56,9 @@ public class Database {
         DocumentFactory documentFactory = new DocumentFactory();
         Document doc1 = documentFactory.createDocument("Legal Working Day Document",user.getAddress());
         Document doc2 = documentFactory.createDocument("Deserved Vacation Day Document", user.getAddress());
-        ArrayList<Document> docs = new ArrayList<>();
-        docs.add(doc1);
-        docs.add(doc2);
-        return docs;
+        getVacationDocuments.add(doc1);
+        getVacationDocuments.add(doc2);
+        return getVacationDocuments;
     }
 
     public static ArrayList<Document> createDocumentsForEYTApplication(User user) {
@@ -59,11 +67,10 @@ public class Database {
         Document doc1 = documentFactory.createDocument("Insurance Document", user.getAddress());
         Document doc2 = documentFactory.createDocument("Legal Working Day Document", user.getAddress());
         Document doc3 = documentFactory.createDocument("Age Document", user.getAddress());
-        ArrayList<Document> docs = new ArrayList<>();
-        docs.add(doc1);
-        docs.add(doc2);
-        docs.add(doc3);
-        return docs;
+        getEYTDocuments.add(doc1);
+        getEYTDocuments.add(doc2);
+        getEYTDocuments.add(doc3);
+        return getEYTDocuments;
     }
 
 }

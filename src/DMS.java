@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 //Facade
@@ -16,8 +15,14 @@ public class DMS {
 
         while (true){
         if (choice==1){
+            WorkOrder root = new WorkOrder("Vacation Request",user);
+            WorkOrder vacationHrWorkOrder = new VacationApplicationHRWorkOrder("Vacation Request Human Resources",user);
+            WorkOrder vacationWorkOrder = new VacationApplicationAdministrationWorkOrder("Vacation Request Administration",user);
+            root.Add(vacationHrWorkOrder);
+            root.Add(vacationWorkOrder);
+            root.Display(1);
         System.out.println("You choose to create Vacation Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
-        user.sendWorkOrder(new VacationApplicationWorkOrder("Vacation Request",user));
+        user.sendWorkOrder(root);
         break;
         }else if (choice==2){
             System.out.println("You choose to create EYT Application Request. DMS is filling the required areas of the document with your informations automatically.\n");

@@ -48,4 +48,10 @@ class Rectorate extends Department {
         super(departmanName, manager);
     }
 }
+class HumanResources extends Department{
+
+    public HumanResources(String departmentName, Manager manager) {
+        super(departmentName, manager);
+    }
+}
 
