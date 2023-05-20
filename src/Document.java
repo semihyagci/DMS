@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //subject of observer(user)
-public abstract class Document implements Component {
+public abstract class Document {
     protected boolean isSignedByManager;
     protected String name;
     protected String address;
@@ -35,21 +35,6 @@ public abstract class Document implements Component {
         }
     }
 
-
-    public void Add(Component c) {
-        System.out.println("Cannot add to a document.");
-    }
-
-    public void Remove(Component c) {
-        System.out.println("Cannot remove from a document.");
-    }
-
-    public void Display(int indent) {
-        for (int i = 1; i <= indent; i++) {
-            System.out.print("-");
-        }
-        System.out.println(" " + name);
-    }
 
     public boolean isSignedByManager() {
         return isSignedByManager;
@@ -92,7 +77,7 @@ class WordDocument extends Document {
 
     @Override
     public void storeSignedFile(Document document) {
-        System.out.println("The signed WORD document is storing in the central database...");
+        System.out.println("The signed WORD document is storing in the central database...\n");
         Database.storeSignedWordDocument(document);
     }
 

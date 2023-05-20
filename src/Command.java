@@ -1,5 +1,3 @@
-//"Command"
-
-interface Command {
-    public void Execute();
+public interface Command {
+    void Execute();
 }
