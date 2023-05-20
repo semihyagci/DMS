@@ -10,7 +10,7 @@ public class Manager extends People {
     public void signingByManager(Document document) {
         Scanner scan = new Scanner(System.in);
         int sign;
-        System.out.println("Your application's " + (documentIncrement) + ". document is  reviewing by " + name + " right now.\n");
+        System.out.println("Your application's " + (documentIncrement) + ". document is  reviewing by " + getName() + " right now.\n");
         System.out.println("Switching to manager...\n");
         System.out.print("Press (1) to sign or press (0) to reject: ");
         sign = scan.nextInt();

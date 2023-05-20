@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class User extends People implements Observer {
+    //Observer's tracking fields in Update method
     private boolean documentIsSignedByManager;
     private String documentName;
-
     private String documentAddress;
 
 

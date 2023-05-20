@@ -8,9 +8,11 @@ class WorkOrder implements Component, Command {
     protected ArrayList<Document> documents;
     protected ArrayList<Component> elements;
 
-    public WorkOrder(String name, ArrayList<Document> docs) {
+    protected User workorderCreator;
+
+    public WorkOrder(String name,User workorderCreator) {
         this.name = name;
-        this.documents = docs;
+        this.workorderCreator=workorderCreator;
         elements = new ArrayList<>();
     }
 
@@ -46,30 +48,37 @@ class WorkOrder implements Component, Command {
         System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
         for (int i = 0; i < departments.size(); i++) {
             departments.get(i).Action(documents);
+            Boolean checkDocumentsAreApproved=checkingAllDocuments(i);
+
             if (departments.get(i).equals(departments.lastElement())) {
-                System.out.println();
-                checkingAllDocuments(i);
+                if (checkDocumentsAreApproved){
+                System.out.println("Your application is approved!");
+                }else{
+                    System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
+                    System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
+                    System.exit(0);
+                }
                 break;
             }
-            checkingAllDocuments(i);
 
+            if (checkDocumentsAreApproved) {
+                System.out.println("All the documents are okay to moving forward to upper departments to confirm. \n");
+            } else {
+                System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
+                System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
+                System.exit(0);
+            }
             System.out.println("Your application forwarded to " + departments.get(i + 1).getDepartmentName() + " for approval.\n");
         }
     }
 
-    private void checkingAllDocuments(int i) {
+    private boolean checkingAllDocuments(int i) {
         boolean checkingAllDocuments = true;
         for (int j = 0; j < documents.size(); j++) {
             if (!documents.get(j).isSignedByManager()) {
                 checkingAllDocuments = false;
             }
         }
-        if (checkingAllDocuments) {
-            System.out.printf("All the documents are okay to moving forward to upper departments to confirm. \n");
-        } else {
-            System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
-            System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
-            System.exit(0);
-        }
+        return checkingAllDocuments;
     }
 }

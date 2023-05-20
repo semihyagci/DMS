@@ -3,7 +3,6 @@ import java.util.Stack;
 
 public class Database {
     public static ArrayList<Document> signedDocuments = new ArrayList<>();
-    ;
 
     public Database() {
     }
@@ -41,6 +40,30 @@ public class Database {
         departments.add(rectorate);
 
         return departments;
+    }
+
+    public static ArrayList<Document> createDocumentsForVacationApplication(User user) {
+        System.out.println("For this application; you need to get signed 2 documents \n");
+        DocumentFactory documentFactory = new DocumentFactory();
+        Document doc1 = documentFactory.createDocument("Legal Working Day Document",user.getAddress());
+        Document doc2 = documentFactory.createDocument("Deserved Vacation Day Document", user.getAddress());
+        ArrayList<Document> docs = new ArrayList<>();
+        docs.add(doc1);
+        docs.add(doc2);
+        return docs;
+    }
+
+    public static ArrayList<Document> createDocumentsForEYTApplication(User user) {
+        System.out.println("For this application; you need to get signed 3 documents\n");
+        DocumentFactory documentFactory = new DocumentFactory();
+        Document doc1 = documentFactory.createDocument("Insurance Document", user.getAddress());
+        Document doc2 = documentFactory.createDocument("Legal Working Day Document", user.getAddress());
+        Document doc3 = documentFactory.createDocument("Age Document", user.getAddress());
+        ArrayList<Document> docs = new ArrayList<>();
+        docs.add(doc1);
+        docs.add(doc2);
+        docs.add(doc3);
+        return docs;
     }
 
 }
