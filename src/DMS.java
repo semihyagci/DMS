@@ -70,7 +70,7 @@ class Database {
     public static Stack<Department> EYTDepartments = new Stack<>();
 
 
-    public static void storeSignedWordDocument(Document document) {
+    public static void storeSignedDocument(Document document) {
         if (signedDocuments.contains(document.getName())) {
             for (int i = 0; i < signedDocuments.size(); i++) {
                 if (signedDocuments.get(i).getName().equals(document.getName())) {
@@ -82,15 +82,15 @@ class Database {
         }
     }
     public static Stack<Department> createHrDepartmentsForVacationApplication() {
-        Department hr = new HumanResources("Human Resources", new Manager("Didem Tiknaz", 29, "Balcova"));
+        Department hr = new HumanResources("Human Resources", new Manager("Didem Tiknaz"));
         HRVacationDepartments.add(hr);
         return HRVacationDepartments;
     }
 
     public static Stack<Department> createAdministrationDepartmentsForVacationApplication() {
-        Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin", 29, "Balcova"));
-        Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin", 45, "Balcova"));
-        Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar", 70, "Balcova"));
+        Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin"));
+        Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin"));
+        Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar"));
 
         AdministrationVacationDepartments.add(softwareEngineeringDepartment);
         AdministrationVacationDepartments.add(engineeringDeanery);
@@ -100,9 +100,9 @@ class Database {
 
 
     public static Stack<Department> createDepartmentsForEYTApplication() {
-        Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin", 29, "Balcova"));
-        Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin", 45, "Balcova"));
-        Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar", 70, "Balcova"));
+        Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin"));
+        Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin"));
+        Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar"));
         EYTDepartments.add(softwareEngineeringDepartment);
         EYTDepartments.add(engineeringDeanery);
         EYTDepartments.add(rectorate);

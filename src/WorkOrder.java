@@ -10,6 +10,8 @@ abstract class WorkOrder implements Command {
     protected String name;
     protected ArrayList<WorkOrder> subWorkOrders;
     protected User workorderCreator;
+    protected Stack<Department> departments;
+    protected ArrayList<Document> documents;
 
     public WorkOrder(String name, User workorderCreator) {
         this.name = name;
@@ -44,12 +46,45 @@ abstract class WorkOrder implements Command {
 
     @Override
     public void Execute() {
+        if (documents==null){
         for (int i = 0; i < subWorkOrders.size(); i++) {
             subWorkOrders.get(i).Execute();
         }
+        }else {
+            System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
+            for (int i = 0; i < departments.size(); i++) {
+                departments.get(i).Action(documents);
+                Boolean checkDocumentsAreApproved = checkingAllDocuments();
+
+                if (departments.get(i).equals(departments.lastElement())) {
+                    if (checkDocumentsAreApproved) {
+                        System.out.println("Your application is approved!");
+                    } else {
+                        System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
+                        System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
+                        System.exit(0);
+                    }
+                    break;
+                }
+
+                if (checkDocumentsAreApproved) {
+                    System.out.println("All the documents are okay to moving forward to upper departments to confirm. \n");
+                } else {
+                    System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
+                    System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
+                    System.exit(0);
+                }
+                System.out.println("Your application forwarded to " + departments.get(i + 1).getDepartmentName() + " for approval.\n");
+            }
+            if (subWorkOrders!=null){
+                for (int i = 0; i < subWorkOrders.size(); i++) {
+                    subWorkOrders.get(i).Execute();
+                }
+            }
+        }
     }
 
-    public boolean checkingAllDocuments(int i, ArrayList<Document> documents) {
+    public boolean checkingAllDocuments() {
         boolean checkingAllDocuments = true;
         for (int j = 0; j < documents.size(); j++) {
             if (!documents.get(j).isSignedByManager()) {
@@ -68,9 +103,6 @@ class VacationApplicationWorkOrder extends WorkOrder {
 }
 
 class VacationApplicationHRWorkOrder extends WorkOrder {
-    protected Stack<Department> departments;
-    protected ArrayList<Document> documents;
-
     public VacationApplicationHRWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
         departments = Database.createHrDepartmentsForVacationApplication();
@@ -80,39 +112,8 @@ class VacationApplicationHRWorkOrder extends WorkOrder {
         }
     }
 
-    @Override
-    public void Execute() {
-        System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
-        for (int i = 0; i < departments.size(); i++) {
-            departments.get(i).Action(documents);
-            Boolean checkDocumentsAreApproved = checkingAllDocuments(i, documents);
-
-            if (departments.get(i).equals(departments.lastElement())) {
-                if (checkDocumentsAreApproved) {
-                    System.out.println("Your application is approved!");
-                } else {
-                    System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
-                    System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
-                    System.exit(0);
-                }
-                break;
-            }
-
-            if (checkDocumentsAreApproved) {
-                System.out.println("All the documents are okay to moving forward to upper departments to confirm. \n");
-            } else {
-                System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
-                System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
-                System.exit(0);
-            }
-            System.out.println("Your application forwarded to " + departments.get(i + 1).getDepartmentName() + " for approval.\n");
-        }
-    }
 }
 class VacationApplicationAdministrationWorkOrder extends WorkOrder {
-    protected Stack<Department> departments;
-    protected ArrayList<Document> documents;
-
     public VacationApplicationAdministrationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
         departments = Database.createAdministrationDepartmentsForVacationApplication();
@@ -122,40 +123,9 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
         }
     }
 
-    @Override
-    public void Execute() {
-        System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
-        for (int i = 0; i < departments.size(); i++) {
-            departments.get(i).Action(documents);
-            Boolean checkDocumentsAreApproved = checkingAllDocuments(i, documents);
-
-            if (departments.get(i).equals(departments.lastElement())) {
-                if (checkDocumentsAreApproved) {
-                    System.out.println("Your application is approved!\n");
-                } else {
-                    System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
-                    System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
-                    System.exit(0);
-                }
-                break;
-            }
-
-            if (checkDocumentsAreApproved) {
-                System.out.println("All the documents are okay to moving forward to upper departments to confirm. \n");
-            } else {
-                System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
-                System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
-                System.exit(0);
-            }
-            System.out.println("Your application forwarded to " + departments.get(i + 1).getDepartmentName() + " for approval.\n");
-        }
-    }
 }
 
 class EYTApplicationWorkOrder extends WorkOrder {
-    protected Stack<Department> departments;
-    protected ArrayList<Document> documents;
-
     public EYTApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
         Database.createDepartmentsForEYTApplication();

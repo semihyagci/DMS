@@ -77,7 +77,7 @@ class WordDocument extends Document {
     @Override
     public void storeSignedFile(Document document) {
         System.out.println("The signed WORD document is storing in the central database...\n");
-        Database.storeSignedWordDocument(document);
+        Database.storeSignedDocument(document);
     }
 
 }
@@ -101,7 +101,7 @@ class PDFDocument extends Document {
     @Override
     public void storeSignedFile(Document document) {
         System.out.println("The signed PDF document is storing in the central database...\n");
-        Database.storeSignedWordDocument(document);
+        Database.storeSignedDocument(document);
     }
 }
 
