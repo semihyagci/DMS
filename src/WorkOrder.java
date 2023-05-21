@@ -61,9 +61,9 @@ abstract class WorkOrder implements Command {
 }
 
 class VacationApplicationWorkOrder extends WorkOrder {
-    public VacationApplicationWorkOrder(String name, User user) {
-        super(name, user);
-        Database.createDocumentsForVacationApplication(user);
+    public VacationApplicationWorkOrder(String name, User workorderCreator) {
+        super(name, workorderCreator);
+        Database.createDocumentsForVacationApplication(workorderCreator);
     }
 }
 
@@ -71,12 +71,12 @@ class VacationApplicationHRWorkOrder extends WorkOrder {
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
 
-    public VacationApplicationHRWorkOrder(String name, User user) {
-        super(name, user);
+    public VacationApplicationHRWorkOrder(String name, User workorderCreator) {
+        super(name, workorderCreator);
         departments = Database.createHrDepartmentsForVacationApplication();
         documents = Database.dividingSpecificPartOfTheVacationDocumentsList(1, 2);
         for (int i = 0; i < documents.size(); i++) {
-            documents.get(i).Attach(user);
+            documents.get(i).Attach(workorderCreator);
         }
     }
 
@@ -113,12 +113,12 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
 
-    public VacationApplicationAdministrationWorkOrder(String name, User user) {
-        super(name, user);
+    public VacationApplicationAdministrationWorkOrder(String name, User workorderCreator) {
+        super(name, workorderCreator);
         departments = Database.createAdministrationDepartmentsForVacationApplication();
         documents = Database.dividingSpecificPartOfTheVacationDocumentsList(0, 0);
         for (int i = 0; i < documents.size(); i++) {
-            documents.get(i).Attach(user);
+            documents.get(i).Attach(workorderCreator);
         }
     }
 
@@ -156,16 +156,16 @@ class EYTApplicationWorkOrder extends WorkOrder {
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
 
-    public EYTApplicationWorkOrder(String name, User user) {
-        super(name, user);
+    public EYTApplicationWorkOrder(String name, User workorderCreator) {
+        super(name, workorderCreator);
         Database.createDepartmentsForEYTApplication();
-        Database.createDocumentsForEYTApplication(user);
+        Database.createDocumentsForEYTApplication(workorderCreator);
 
         departments = Database.EYTDepartments;
         documents = Database.EYTDocuments;
 
         for (int i = 0; i < documents.size(); i++) {
-            documents.get(i).Attach(user);
+            documents.get(i).Attach(workorderCreator);
         }
     }
 }
