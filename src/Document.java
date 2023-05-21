@@ -1,4 +1,3 @@
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -106,13 +105,17 @@ class PDFDocument extends Document {
     }
 }
 
-class DocumentFactory {
+interface AbstractDocumentFactory{
+    Document createDocument(String name, String address);
+}
+
+class DocumentFactory implements AbstractDocumentFactory {
     public DocumentFactory() {
     }
 
-    Scanner scan = new Scanner(System.in);
-
+    @Override
     public Document createDocument(String name, String address) {
+        Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("Please specify the format of your document for the application: ");
             String format = scan.next();

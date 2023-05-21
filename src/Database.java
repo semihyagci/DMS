@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
+
+//This class is not related with the patterns which are developed in the project.
+//This class is just creating departments and regarding documents needed in the related workorder. Also we store the signed documents in this central database class.
 public class Database {
     public static ArrayList<Document> signedDocuments = new ArrayList<>();
-    public static ArrayList<Document> HRVacationDocuments = new ArrayList<>();
-    public static ArrayList<Document> AdministrationVacationDocuments = new ArrayList<>();
+    public static ArrayList<Document> VacationDocuments = new ArrayList<>();
     public static Stack<Department> HRVacationDepartments = new Stack<>();
     public static Stack<Department> AdministrationVacationDepartments = new Stack<>();
     public static ArrayList<Document> EYTDocuments = new ArrayList<>();
-    public static ArrayList<Document> VacationDocuments = new ArrayList<>();
     public static Stack<Department> EYTDepartments = new Stack<>();
 
     public Database() {
