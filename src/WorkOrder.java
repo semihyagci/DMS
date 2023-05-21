@@ -131,7 +131,7 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
 
             if (departments.get(i).equals(departments.lastElement())) {
                 if (checkDocumentsAreApproved) {
-                    System.out.println("Your application is approved!");
+                    System.out.println("Your application is approved!\n");
                 } else {
                     System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
                     System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
