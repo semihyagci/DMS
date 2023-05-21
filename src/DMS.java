@@ -15,7 +15,7 @@ public class DMS {
     }
 
     //Singleton getInstance method.
-    public static DMS getInstance(User user){
+    public static DMS getDMSInstance(User user){
         if (uniqueDMSInstance==null)
             uniqueDMSInstance=new DMS(user);
         return uniqueDMSInstance;
@@ -53,7 +53,7 @@ public class DMS {
 
     public static void main(String[] args) {
         User user = new User("Semih", 19, "Buca");
-        DMS dms = DMS.getInstance(user);
+        DMS dms = DMS.getDMSInstance(user);
         dms.createApplication(user);
     }
 
@@ -112,7 +112,7 @@ class Database {
 
     public static void createDocumentsForVacationApplication(User user) {
         System.out.println("For this application; you need to get signed 3 documents \n");
-        DocumentFactory documentFactory = new DocumentFactory();
+        DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
         Document doc1 = documentFactory.createDocument("Vacation Permission From Administartion Document",user.getAddress());
         Document doc2 = documentFactory.createDocument("Application Form",user.getAddress());
         Document doc3 = documentFactory.createDocument("Legal Working Day Document", user.getAddress());
@@ -123,7 +123,7 @@ class Database {
 
     public static ArrayList<Document> createDocumentsForEYTApplication(User user) {
         System.out.println("For this application; you need to get signed 3 documents\n");
-        DocumentFactory documentFactory = new DocumentFactory();
+        DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
         Document doc1 = documentFactory.createDocument("Insurance Document", user.getAddress());
         Document doc2 = documentFactory.createDocument("Legal Working Day Document", user.getAddress());
         Document doc3 = documentFactory.createDocument("Age Document", user.getAddress());

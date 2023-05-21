@@ -1,3 +1,4 @@
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -110,7 +111,15 @@ interface AbstractDocumentFactory{
 }
 
 class DocumentFactory implements AbstractDocumentFactory {
-    public DocumentFactory() {
+    private static DocumentFactory uniqueDocumentFactoryInstance=null;
+
+    private DocumentFactory() {
+    }
+
+    public static DocumentFactory getDocumentFactoryInstance(){
+        if (uniqueDocumentFactoryInstance==null)
+            uniqueDocumentFactoryInstance=new DocumentFactory();
+        return uniqueDocumentFactoryInstance;
     }
 
     @Override
