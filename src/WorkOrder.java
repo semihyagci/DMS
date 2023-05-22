@@ -109,6 +109,7 @@ abstract class WorkOrder implements Command {
 
 }
 
+// Also composite or Leaf
 class VacationApplicationWorkOrder extends WorkOrder {
     public VacationApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -116,6 +117,7 @@ class VacationApplicationWorkOrder extends WorkOrder {
     }
 }
 
+// Also composite or Leaf
 class VacationApplicationHRWorkOrder extends WorkOrder {
     public VacationApplicationHRWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -141,6 +143,7 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
 
 }
 
+// Also composite or Leaf
 class EYTApplicationWorkOrder extends WorkOrder {
     public EYTApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);

@@ -3,7 +3,7 @@ import java.util.Scanner;
 interface Observer {
     void Update(Document document);
 }
-
+// User class
 class User implements Observer {
     private final String name;
 

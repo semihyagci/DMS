@@ -18,7 +18,7 @@ abstract public class Department {
         return departmentName;
     }
 
-
+    // Manager signing in Department
     public void Action(ArrayList<Document> documents) {
         for (Document document : documents) {
             Boolean status = document.verifyAllFields();
@@ -38,7 +38,7 @@ class Manager {
     public Manager(String name) {
         this.name = name;
     }
-
+    // Signing by manager
     public void signingByManager(Document document) {
         Scanner scan = new Scanner(System.in);
         int sign;
@@ -70,7 +70,7 @@ class Manager {
         }
     }
 }
-
+// DEPARTMENTS
 class EngineeringDepartment extends Department {
     public EngineeringDepartment(String departmentName, Manager manager) {
         super(departmentName, manager);
@@ -82,7 +82,21 @@ class EngineeringDeanery extends Department {
         super(departmanName, manager);
     }
 }
-
+class EYTFirstDep extends Department {
+    public EYTFirstDep(String departmanName, Manager manager) {
+        super(departmanName, manager);
+    }
+}
+class EYTThirdDep extends Department {
+    public EYTThirdDep(String departmanName, Manager manager) {
+        super(departmanName, manager);
+    }
+}
+class EYTSecondDep extends Department {
+    public EYTSecondDep(String departmanName, Manager manager) {
+        super(departmanName, manager);
+    }
+}
 class Rectorate extends Department {
     public Rectorate(String departmanName, Manager manager) {
         super(departmanName, manager);

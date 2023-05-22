@@ -15,11 +15,11 @@ public abstract class Document {
         users = new ArrayList<>();
         isSignedByManager = false;
     }
-
+    // Register The Observers
     public void Attach(User user) {
         users.add(user);
     }
-
+    // Unregister
     public void Detach(User user) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getName().equals(user.getName())) {
@@ -28,7 +28,7 @@ public abstract class Document {
             }
         }
     }
-
+    // Notify The Observers
     public void Notify() {
         for (int i = 0; i < users.size(); i++) {
             users.get(i).Update(this);
@@ -39,7 +39,6 @@ public abstract class Document {
     public boolean isSignedByManager() {
         return isSignedByManager;
     }
-
 
     public Boolean verifyAllFields() {
         return (name != null) && (address != null);
@@ -58,7 +57,7 @@ public abstract class Document {
     }
 }
 
-
+//Concrete Document
 class WordDocument extends Document {
     public WordDocument(String name, String address) {
         super(name, address);
@@ -82,7 +81,7 @@ class WordDocument extends Document {
     }
 
 }
-
+//Concrete Document
 class PDFDocument extends Document {
     public PDFDocument(String name, String address) {
         super(name, address);

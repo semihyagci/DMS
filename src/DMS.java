@@ -21,6 +21,7 @@ public class DMS {
         return uniqueDMSInstance;
     }
 
+    // DMS creating the structure of selected application.
     public void createApplication(User user) {
         Scanner input = new Scanner(System.in);
 
@@ -50,7 +51,14 @@ public class DMS {
         break;
         }else if (choice==2){
             System.out.println("You choose to create EYT Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
-            user.sendWorkOrder(new EYTApplicationWorkOrder("EYT Request",user));
+            WorkOrder eytApplicationWorkOrder = new EYTApplicationWorkOrder("EYT Request",user);
+            WorkOrder eytFirstWorkOrder = new EYTApplicationFirstWorkOrder("First Workorder",user);
+            WorkOrder eytSecondWorkOrder = new EYTApplicationSecondWorkOrder("Second Workorder",user);
+            eytApplicationWorkOrder.Add(eytFirstWorkOrder);
+            eytFirstWorkOrder.Add(eytSecondWorkOrder);
+            System.out.println();
+            eytApplicationWorkOrder.Display(1);
+            //user.sendWorkOrder(new EYTApplicationWorkOrder("EYT Request",user));
             break;
         }else {
             System.out.println("Invalid choice.\n Press 1 for Vacation Application\nPress 2 for EYT Application\n");
@@ -108,15 +116,34 @@ class Database {
         return AdministrationVacationDepartments;
     }
 
+    public static Stack<Department> createPublicRelationsDepartmentsForEYTApplication() {
+        Department Public_Relations = new EYTFirstDep("Public Relations Department", new Manager("Yasin Çolak"));
+        FirstSubEYTDepartments.add(Public_Relations);
+        return FirstSubEYTDepartments;
+    }
+    public static Stack<Department> createSSADepartmentsForEYTApplication() {
+        Department Payment_Department = new EYTThirdDep("Payment Department", new Manager("Hasan Yücetaş"));
+        Department Tax_Department = new EYTThirdDep("Tax Department", new Manager("Hande Baş"));
 
-    public static Stack<Department> createDepartmentsForEYTApplication() {
-        Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin"));
-        Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin"));
-        Department rectorate = new Rectorate("IUE Rectorate", new Manager("Murat Askar"));
-        EYTDepartments.add(softwareEngineeringDepartment);
-        EYTDepartments.add(engineeringDeanery);
-        EYTDepartments.add(rectorate);
-        return EYTDepartments;
+        SecondSubEYTDepartments.add(Payment_Department);
+        SecondSubEYTDepartments.add(Tax_Department);
+        return SecondSubEYTDepartments;
+    }
+    public static ArrayList<Document> createDocumentsForEYTApplication(User user) {
+        System.out.println("For this application; you need to get these 3 documents signed.\n");
+        System.out.println("""
+                Formal Age Document
+                Formal Working Days Document
+                Retirement Insurance Payment Document
+                """);
+        DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
+        Document doc1 = documentFactory.createDocument("Formal Age Document", user.getAddress());
+        Document doc2 = documentFactory.createDocument("Formal Working Days Document", user.getAddress());
+        Document doc3 = documentFactory.createDocument("Retirement Insurance Payment Document", user.getAddress());
+        EYTDocuments.add(doc1);
+        EYTDocuments.add(doc2);
+        EYTDocuments.add(doc3);
+        return EYTDocuments;
     }
 
 
@@ -136,17 +163,6 @@ class Database {
         VacationDocuments.add(doc3);
     }
 
-    public static ArrayList<Document> createDocumentsForEYTApplication(User user) {
-        System.out.println("For this application; you need to get signed 3 documents\n");
-        DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
-        Document doc1 = documentFactory.createDocument("Insurance Document", user.getAddress());
-        Document doc2 = documentFactory.createDocument("Legal Working Day Document", user.getAddress());
-        Document doc3 = documentFactory.createDocument("Age Document", user.getAddress());
-        EYTDocuments.add(doc1);
-        EYTDocuments.add(doc2);
-        EYTDocuments.add(doc3);
-        return EYTDocuments;
-    }
     public static ArrayList<Document> dividingSpecificPartOfTheVacationDocumentsList(int firstIndex,int lastIndex){
         ArrayList<Document> temp=new ArrayList<>();
         for (int i=firstIndex;i<=lastIndex;i++){
