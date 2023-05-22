@@ -39,6 +39,14 @@ public class DMS {
             System.out.println();
         System.out.println("You choose to create Vacation Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
         user.sendWorkOrder(vacationApplicationWorkOrder);
+        boolean check=WorkOrder.checkingAllDocuments(vacationApplicationWorkOrder);
+        if (check){
+            System.out.println("Your work order is completely approved!");
+        }
+        else {
+            System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures.");
+
+        }
         break;
         }else if (choice==2){
             System.out.println("You choose to create EYT Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
@@ -67,7 +75,9 @@ class Database {
     public static Stack<Department> HRVacationDepartments = new Stack<>();
     public static Stack<Department> AdministrationVacationDepartments = new Stack<>();
     public static ArrayList<Document> EYTDocuments = new ArrayList<>();
-    public static Stack<Department> EYTDepartments = new Stack<>();
+    public static Stack<Department> FirstSubEYTDepartments = new Stack<>();
+    public static Stack<Department> SecondSubEYTDepartments = new Stack<>();
+    public static Stack<Department> EYTDepartments=new Stack<>();
 
 
     public static void storeSignedDocument(Document document) {
@@ -111,9 +121,14 @@ class Database {
 
 
     public static void createDocumentsForVacationApplication(User user) {
-        System.out.println("For this application; you need to get signed 3 documents \n");
+        System.out.println("For this application; you need to get these 3 documents signed.\n");
+        System.out.println("""
+                Vacation Permission From Administration Document
+                Application Form
+                Legal Working Day Document
+                """);
         DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
-        Document doc1 = documentFactory.createDocument("Vacation Permission From Administartion Document",user.getAddress());
+        Document doc1 = documentFactory.createDocument("Vacation Permission from Administration Document",user.getAddress());
         Document doc2 = documentFactory.createDocument("Application Form",user.getAddress());
         Document doc3 = documentFactory.createDocument("Legal Working Day Document", user.getAddress());
         VacationDocuments.add(doc1);
@@ -139,5 +154,20 @@ class Database {
         }
         return temp;
     }
+    public static ArrayList<Document> dividingSpecificPartOfTheEYTDocumentsList(int firstIndex,int lastIndex){
+        ArrayList<Document> temp=new ArrayList<>();
+        for (int i=firstIndex;i<=lastIndex;i++){
+            temp.add(EYTDocuments.get(i));
+        }
+        return temp;
+    }
+
+    public static Stack<Department> createDepartmentsForEYTApplication() {
+        Department hr = new HumanResources("depp", new Manager("hmzckd"));
+        EYTDepartments.add(hr);
+        return EYTDepartments;
+
+    }
 }
+
 

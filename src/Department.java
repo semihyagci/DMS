@@ -20,42 +20,47 @@ abstract public class Department {
 
 
     public void Action(ArrayList<Document> documents) {
-        for (int i = 0; i < documents.size(); i++) {
-            Boolean status = documents.get(i).verifyAllFields();
+        for (Document document : documents) {
+            Boolean status = document.verifyAllFields();
             if (status) {
-                manager.signingByManager(documents.get(i));
-                if (documents.get(i).isSignedByManager()) {
-                    documents.get(i).Notify();
+                manager.signingByManager(document);
+                if (document.isSignedByManager()) {
+                    document.Notify();
                 }
             }
         }
     }
 }
-
-class Manager{
-    private String name;
-
-
-    private int documentIncrement = 1;
+//Manager Class
+class Manager {
+    private final String name;
 
     public Manager(String name) {
-        this.name=name;
+        this.name = name;
     }
 
     public void signingByManager(Document document) {
         Scanner scan = new Scanner(System.in);
         int sign;
-        System.out.println("Your application's " + (documentIncrement) + ". document is  reviewing by " + name + " right now.\n");
-        System.out.println("Switching to manager...\n");
+        System.out.println(document.getName() + " is now reviewing by " + name + ".\n");
+        System.out.println("************************************");
+        System.out.println("Switching to " + name);
+        System.out.println("************************************");
         System.out.print("Press (1) to sign or press (0) to reject: ");
         sign = scan.nextInt();
         while (true) {
             if (sign == 1) {
                 document.setSignedByManager(true);
+                System.out.println("***************************");
+                System.out.println("Switching back to user.");
+                System.out.println("***************************");
                 break;
             }
             if (sign == 0) {
                 document.setSignedByManager(false);
+                System.out.println("***************************");
+                System.out.println("Switching back to user.");
+                System.out.println("***************************");
                 break;
             } else {
                 System.out.println("Invalid choice. Try again\n");
@@ -63,7 +68,6 @@ class Manager{
                 sign = scan.nextInt();
             }
         }
-        documentIncrement++;
     }
 }
 

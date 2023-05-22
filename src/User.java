@@ -5,7 +5,7 @@ interface Observer {
 }
 
 class User implements Observer {
-    private String name;
+    private final String name;
 
     private int age;
 
@@ -41,7 +41,6 @@ class User implements Observer {
         documentName = document.getName();
         documentIsSignedByManager = document.isSignedByManager();
         documentAddress = document.getAddress();
-        System.out.println("Your document with the \n name of: " + documentName + "\n address of: " + documentAddress + "  has been approved!\n");
     }
 
     //Invoker

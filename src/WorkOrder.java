@@ -13,10 +13,48 @@ abstract class WorkOrder implements Command {
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
 
+    protected static ArrayList<Document> rejectedDocs = new ArrayList<>();
+
     public WorkOrder(String name, User workorderCreator) {
         this.name = name;
         this.workorderCreator = workorderCreator;
         subWorkOrders = new ArrayList<>();
+    }
+
+    public ArrayList<Document> rejectedDocuments() {
+        for (Document document : documents) {
+            if (!document.isSignedByManager()) {
+                if (rejectedDocs.contains(document)) {
+                    continue;
+                }
+                rejectedDocs.add(document);
+            }
+        }
+        return rejectedDocs;
+    }
+    public static boolean checkingAllDocuments(WorkOrder workOrder) {
+        boolean checkingAllDocuments = true;
+        if (workOrder.documents!=null){
+            for (int j = 0; j < workOrder.documents.size(); j++) {
+                if (!workOrder.documents.get(j).isSignedByManager()) {
+                    checkingAllDocuments = false;
+                    break;
+                }
+            }
+        }
+        if (workOrder.subWorkOrders!=null){
+            for (WorkOrder subWorkOrder: workOrder.subWorkOrders){
+                for (int i=0;i<subWorkOrder.documents.size();i++){
+                    if (!subWorkOrder.documents.get(i).isSignedByManager()) {
+                        checkingAllDocuments = false;
+                        break;
+                    }
+
+                }
+
+            }
+        }
+        return checkingAllDocuments;
     }
 
     public String getName() {
@@ -29,7 +67,7 @@ abstract class WorkOrder implements Command {
 
     public void Remove(WorkOrder d) {
         for (int i = 0; i < subWorkOrders.size(); i++) {
-            if (subWorkOrders.get(i).getName() == d.getName()) {
+            if (subWorkOrders.get(i).getName().equals(d.getName())) {
                 subWorkOrders.remove(i);
                 return;
             }
@@ -39,60 +77,36 @@ abstract class WorkOrder implements Command {
     public void Display(int indent) {
         for (int i = 1; i <= indent; i++) System.out.print("-");
         System.out.println("+ " + getName());
-        for (int i = 0; i < subWorkOrders.size(); i++) {
-            subWorkOrders.get(i).Display(indent + 2);
+        for (WorkOrder subWorkOrder : subWorkOrders) {
+            subWorkOrder.Display(indent + 2);
         }
     }
 
     @Override
     public void Execute() {
-        if (documents==null){
-        for (int i = 0; i < subWorkOrders.size(); i++) {
-            subWorkOrders.get(i).Execute();
-        }
-        }else {
+        if (documents == null) {
+            for (WorkOrder subWorkOrder : subWorkOrders) {
+                subWorkOrder.Execute();
+            }
+        } else {
             System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
             for (int i = 0; i < departments.size(); i++) {
                 departments.get(i).Action(documents);
-                Boolean checkDocumentsAreApproved = checkingAllDocuments();
-
-                if (departments.get(i).equals(departments.lastElement())) {
-                    if (checkDocumentsAreApproved) {
-                        System.out.println("Your application is approved!");
-                    } else {
-                        System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
-                        System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
-                        System.exit(0);
-                    }
+                rejectedDocs = rejectedDocuments();
+                if (rejectedDocs.size()==i) {
                     break;
                 }
-
-                if (checkDocumentsAreApproved) {
-                    System.out.println("All the documents are okay to moving forward to upper departments to confirm. \n");
-                } else {
-                    System.out.println("@@@@@@@@@@@@@ REJECTED WORKORDER @@@@@@@@@@@@@");
-                    System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures. Please check your documents and make the corrections according to our rules and apply again. ");
-                    System.exit(0);
-                }
-                System.out.println("Your application forwarded to " + departments.get(i + 1).getDepartmentName() + " for approval.\n");
             }
-            if (subWorkOrders!=null){
-                for (int i = 0; i < subWorkOrders.size(); i++) {
-                    subWorkOrders.get(i).Execute();
+            if (subWorkOrders != null) {
+                for (WorkOrder subWorkOrder : subWorkOrders) {
+                    subWorkOrder.Execute();
                 }
             }
+
         }
+
     }
 
-    public boolean checkingAllDocuments() {
-        boolean checkingAllDocuments = true;
-        for (int j = 0; j < documents.size(); j++) {
-            if (!documents.get(j).isSignedByManager()) {
-                checkingAllDocuments = false;
-            }
-        }
-        return checkingAllDocuments;
-    }
 }
 
 class VacationApplicationWorkOrder extends WorkOrder {
@@ -107,19 +121,21 @@ class VacationApplicationHRWorkOrder extends WorkOrder {
         super(name, workorderCreator);
         departments = Database.createHrDepartmentsForVacationApplication();
         documents = Database.dividingSpecificPartOfTheVacationDocumentsList(1, 2);
-        for (int i = 0; i < documents.size(); i++) {
-            documents.get(i).Attach(workorderCreator);
+        for (Document document : documents) {
+            document.Attach(workorderCreator);
         }
     }
 
 }
+
+// Also composite or Leaf
 class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     public VacationApplicationAdministrationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
         departments = Database.createAdministrationDepartmentsForVacationApplication();
         documents = Database.dividingSpecificPartOfTheVacationDocumentsList(0, 0);
-        for (int i = 0; i < documents.size(); i++) {
-            documents.get(i).Attach(workorderCreator);
+        for (Document document : documents) {
+            document.Attach(workorderCreator);
         }
     }
 
@@ -136,6 +152,36 @@ class EYTApplicationWorkOrder extends WorkOrder {
 
         for (int i = 0; i < documents.size(); i++) {
             documents.get(i).Attach(workorderCreator);
+        }
+    }
+}
+
+// Also composite or Leaf
+class EYTApplicationSecondWorkOrder extends WorkOrder {
+    protected Stack<Department> departments;
+    protected ArrayList<Document> documents;
+
+    public EYTApplicationSecondWorkOrder(String name, User workOrderCreator) {
+        super(name, workOrderCreator);
+        departments = Database.createSecondSubDepartmentsForEYTApplication();
+        documents = Database.dividingSpecificPartOfTheEYTDocumentsList(1, 1);
+        for (Document document : documents) {
+            document.Attach(workOrderCreator);
+        }
+    }
+}
+
+// Also composite or Leaf
+class EYTApplicationFirstWorkOrder extends WorkOrder {
+    protected Stack<Department> departments;
+    protected ArrayList<Document> documents;
+
+    public EYTApplicationFirstWorkOrder(String name, User workorderCreator) {
+        super(name, workorderCreator);
+        //departments = Database.createFirstSubDepartmentsForEYTApplication();
+        documents = Database.dividingSpecificPartOfTheVacationDocumentsList(0, 0);
+        for (Document document : documents) {
+            document.Attach(workorderCreator);
         }
     }
 }

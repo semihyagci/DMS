@@ -22,7 +22,7 @@ public abstract class Document {
 
     public void Detach(User user) {
         for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getName() == user.getName()) {
+            if (users.get(i).getName().equals(user.getName())) {
                 users.remove(i);
                 return;
             }
@@ -67,10 +67,10 @@ class WordDocument extends Document {
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
-            System.out.println("The WORD document with the name of " + name + " is signed by the manager.\n");
+            System.out.println("Current manager has approved the WORD document with the name of "+name+".\n");
             storeSignedFile(this);
         } else {
-            System.out.println("The WORD document is rejected by the manager.\n");
+            System.out.println("Current manager has rejected the WORD document with the name of "+name+".\n");
         }
         isSignedByManager = sign;
     }
@@ -91,10 +91,10 @@ class PDFDocument extends Document {
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
-            System.out.println("The PDF document with the name of " + name + " is signed by the manager.\n");
+            System.out.println("Current manager has approved the PDF document with the name of "+name+".\n");
             storeSignedFile(this);
         } else {
-            System.out.println("The PDF document is rejected by the manager.\n");
+            System.out.println("Current manager has rejected the PDF document with the name of "+name+".\n");
         }
         isSignedByManager = sign;
     }
@@ -126,7 +126,7 @@ class DocumentFactory implements AbstractDocumentFactory {
     public Document createDocument(String name, String address) {
         Scanner scan = new Scanner(System.in);
         while (true) {
-            System.out.print("Please specify the format of your document for the application: ");
+            System.out.print("Please specify the format of the document "+name+".\n");
             String format = scan.next();
             if (format.equalsIgnoreCase("wORd")) {
                 return new WordDocument(name, address);
