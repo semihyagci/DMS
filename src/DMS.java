@@ -6,64 +6,81 @@ import java.util.Stack;
 //This class as a work engine will route the
 //work order from one department into another
 public class DMS {
-    private static DMS uniqueDMSInstance=null;
-    private User user;
+    private static DMS uniqueDMSInstance = null;
+    private final User user;
+
     private DMS(User user) {
-        this.user=user;
+        this.user = user;
         System.out.println("***  Document Management System  ***\n");
         System.out.println("Hello " + this.user.getName() + " welcome to DMS...\n");
     }
 
     //Singleton getInstance method.
-    public static DMS getDMSInstance(User user){
-        if (uniqueDMSInstance==null)
-            uniqueDMSInstance=new DMS(user);
+    public static DMS getDMSInstance(User user) {
+        if (uniqueDMSInstance == null)
+            uniqueDMSInstance = new DMS(user);
         return uniqueDMSInstance;
     }
+
 
     // DMS creating the structure of selected application.
     public void createApplication(User user) {
         Scanner input = new Scanner(System.in);
+        WorkOrder workOrder;
+        System.out.println("Press 1 for Vacation Application\nPress 2 for EYT Application\nPress -1 for exit.");
+        int choice = input.nextInt();
 
-        System.out.println("Press 1 for Vacation Application\nPress 2 for EYT Application\n");
-        int choice=input.nextInt();
+        while (choice != -1) {
+            if (choice == 1) {
+                workOrder = new VacationApplicationWorkOrder("Vacation Request", user);
+                WorkOrder vacationHrCheckSubWorkOrder = new VacationApplicationHRWorkOrder("Vacation Check Request Human Resources", user);
+                WorkOrder vacationAdministrationCheckSubWorkOrder = new VacationApplicationAdministrationWorkOrder("Vacation Check Request Administration", user);
+                workOrder.Add(vacationHrCheckSubWorkOrder);
+                workOrder.Add(vacationAdministrationCheckSubWorkOrder);
+                System.out.println();
+                workOrder.Display(1);
+                System.out.println();
+                System.out.println("You choose to create Vacation Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
+                user.sendWorkOrder(workOrder);
+                boolean check = WorkOrder.checkingAllDocuments(workOrder);
+                if (check) {
+                    System.out.println("Your work order is completely approved!");
+                } else {
+                    System.out.println("We are sorry for inform you that your workorder has been rejected because of these documents.");
+                    System.out.println("---------------------------------------------------");
+                    for (Document document : WorkOrder.rejectedDocuments) {
+                        System.out.println(document.getName());
+                    }
+                    System.out.println("---------------------------------------------------");
 
-        while (true){
-        if (choice==1){
-            WorkOrder vacationApplicationWorkOrder = new VacationApplicationWorkOrder("Vacation Request",user);
-            WorkOrder vacationHrCheckSubWorkOrder = new VacationApplicationHRWorkOrder("Vacation Check Request Human Resources",user);
-            WorkOrder vacationAdministrationCheckSubWorkOrder = new VacationApplicationAdministrationWorkOrder("Vacation Check Request Administration",user);
-            vacationApplicationWorkOrder.Add(vacationHrCheckSubWorkOrder);
-            vacationApplicationWorkOrder.Add(vacationAdministrationCheckSubWorkOrder);
-            System.out.println();
-            vacationApplicationWorkOrder.Display(1);
-            System.out.println();
-        System.out.println("You choose to create Vacation Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
-        user.sendWorkOrder(vacationApplicationWorkOrder);
-        boolean check=WorkOrder.checkingAllDocuments(vacationApplicationWorkOrder);
-        if (check){
-            System.out.println("Your work order is completely approved!");
-        }
-        else {
-            System.out.println("We are sorry for inform you that your workorder has been rejected because some of the documents are not suitable for our procedures.");
+                }
+                break;
+            } else if (choice == 2) {
+                workOrder = new EYTApplicationWorkOrder("EYT Request", user);
+                WorkOrder eytSecondWorkOrder = new EYTApplicationSSAWorkOrder("EYT Request SSA Check", user);
+                workOrder.Add(eytSecondWorkOrder);
+                System.out.println();
+                workOrder.Display(1);
+                System.out.println("You choose to create EYT Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
+                user.sendWorkOrder(workOrder);
+                boolean check = WorkOrder.checkingAllDocuments(workOrder);
+                if (check) {
+                    System.out.println("Your work order is completely approved!");
+                } else {
+                    System.out.println("We are sorry for inform you that your workorder has been rejected because of these documents.");
+                    System.out.println("---------------------------------------------------");
+                    for (Document document : WorkOrder.rejectedDocuments) {
+                        System.out.println(document.getName());
+                    }
+                    System.out.println("---------------------------------------------------");
 
-        }
-        break;
-        }else if (choice==2){
-            System.out.println("You choose to create EYT Application Request. DMS is filling the required areas of the document with your informations automatically.\n");
-            WorkOrder eytApplicationWorkOrder = new EYTApplicationWorkOrder("EYT Request",user);
-            WorkOrder eytFirstWorkOrder = new EYTApplicationFirstWorkOrder("First Workorder",user);
-            WorkOrder eytSecondWorkOrder = new EYTApplicationSecondWorkOrder("Second Workorder",user);
-            eytApplicationWorkOrder.Add(eytFirstWorkOrder);
-            eytFirstWorkOrder.Add(eytSecondWorkOrder);
-            System.out.println();
-            eytApplicationWorkOrder.Display(1);
-            //user.sendWorkOrder(new EYTApplicationWorkOrder("EYT Request",user));
-            break;
-        }else {
-            System.out.println("Invalid choice.\n Press 1 for Vacation Application\nPress 2 for EYT Application\n");
-            choice=input.nextInt();
-        }
+                }
+                break;
+            } else {
+                System.out.println("Invalid choice.\nPress 1 for Vacation Application\nPress 2 for EYT Application\nPress -1 to exit.");
+                choice = input.nextInt();
+            }
+
         }
     }
 
@@ -76,16 +93,18 @@ public class DMS {
 }
 
 //This class is not related with the patterns which are developed in the project.
-//This class is just creating departments and regarding documents needed in the related workorder. Also we store the signed documents in this central database class.
+//This class is just creating departments and regarding documents needed in the related workorder,Also we store the signed documents in this central database class.
 class Database {
     public static ArrayList<Document> signedDocuments = new ArrayList<>();
     public static ArrayList<Document> VacationDocuments = new ArrayList<>();
     public static Stack<Department> HRVacationDepartments = new Stack<>();
     public static Stack<Department> AdministrationVacationDepartments = new Stack<>();
     public static ArrayList<Document> EYTDocuments = new ArrayList<>();
-    public static Stack<Department> FirstSubEYTDepartments = new Stack<>();
-    public static Stack<Department> SecondSubEYTDepartments = new Stack<>();
-    public static Stack<Department> EYTDepartments=new Stack<>();
+
+
+    public static Stack<Department> PublicRelationsEYTDepartments = new Stack<>();
+
+    public static Stack<Department> SSAEYTDepartments = new Stack<>();
 
 
     public static void storeSignedDocument(Document document) {
@@ -99,6 +118,7 @@ class Database {
             signedDocuments.add(document);
         }
     }
+
     public static Stack<Department> createHrDepartmentsForVacationApplication() {
         Department hr = new HumanResources("Human Resources", new Manager("Didem Tiknaz"));
         HRVacationDepartments.add(hr);
@@ -118,18 +138,20 @@ class Database {
 
     public static Stack<Department> createPublicRelationsDepartmentsForEYTApplication() {
         Department Public_Relations = new EYTFirstDep("Public Relations Department", new Manager("Yasin Çolak"));
-        FirstSubEYTDepartments.add(Public_Relations);
-        return FirstSubEYTDepartments;
+        PublicRelationsEYTDepartments.add(Public_Relations);
+        return PublicRelationsEYTDepartments;
     }
+
     public static Stack<Department> createSSADepartmentsForEYTApplication() {
         Department Payment_Department = new EYTThirdDep("Payment Department", new Manager("Hasan Yücetaş"));
         Department Tax_Department = new EYTThirdDep("Tax Department", new Manager("Hande Baş"));
 
-        SecondSubEYTDepartments.add(Payment_Department);
-        SecondSubEYTDepartments.add(Tax_Department);
-        return SecondSubEYTDepartments;
+        SSAEYTDepartments.add(Payment_Department);
+        SSAEYTDepartments.add(Tax_Department);
+        return SSAEYTDepartments;
     }
-    public static ArrayList<Document> createDocumentsForEYTApplication(User user) {
+
+    public static void createDocumentsForEYTApplication(User user) {
         System.out.println("For this application; you need to get these 3 documents signed.\n");
         System.out.println("""
                 Formal Age Document
@@ -143,7 +165,7 @@ class Database {
         EYTDocuments.add(doc1);
         EYTDocuments.add(doc2);
         EYTDocuments.add(doc3);
-        return EYTDocuments;
+
     }
 
 
@@ -155,34 +177,28 @@ class Database {
                 Legal Working Day Document
                 """);
         DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
-        Document doc1 = documentFactory.createDocument("Vacation Permission from Administration Document",user.getAddress());
-        Document doc2 = documentFactory.createDocument("Application Form",user.getAddress());
+        Document doc1 = documentFactory.createDocument("Vacation Permission from Administration Document", user.getAddress());
+        Document doc2 = documentFactory.createDocument("Application Form", user.getAddress());
         Document doc3 = documentFactory.createDocument("Legal Working Day Document", user.getAddress());
         VacationDocuments.add(doc1);
         VacationDocuments.add(doc2);
         VacationDocuments.add(doc3);
     }
 
-    public static ArrayList<Document> dividingSpecificPartOfTheVacationDocumentsList(int firstIndex,int lastIndex){
-        ArrayList<Document> temp=new ArrayList<>();
-        for (int i=firstIndex;i<=lastIndex;i++){
+    public static ArrayList<Document> dividingSpecificPartOfTheVacationDocumentsList(int firstIndex, int lastIndex) {
+        ArrayList<Document> temp = new ArrayList<>();
+        for (int i = firstIndex; i <= lastIndex; i++) {
             temp.add(VacationDocuments.get(i));
         }
         return temp;
     }
-    public static ArrayList<Document> dividingSpecificPartOfTheEYTDocumentsList(int firstIndex,int lastIndex){
-        ArrayList<Document> temp=new ArrayList<>();
-        for (int i=firstIndex;i<=lastIndex;i++){
+
+    public static ArrayList<Document> dividingSpecificPartOfTheEYTDocumentsList(int firstIndex, int lastIndex) {
+        ArrayList<Document> temp = new ArrayList<>();
+        for (int i = firstIndex; i <= lastIndex; i++) {
             temp.add(EYTDocuments.get(i));
         }
         return temp;
-    }
-
-    public static Stack<Department> createDepartmentsForEYTApplication() {
-        Department hr = new HumanResources("depp", new Manager("hmzckd"));
-        EYTDepartments.add(hr);
-        return EYTDepartments;
-
     }
 }
 

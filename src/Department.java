@@ -78,28 +78,24 @@ class EngineeringDepartment extends Department {
 }
 
 class EngineeringDeanery extends Department {
-    public EngineeringDeanery(String departmanName, Manager manager) {
-        super(departmanName, manager);
+    public EngineeringDeanery(String departmentName, Manager manager) {
+        super(departmentName, manager);
     }
 }
 class EYTFirstDep extends Department {
-    public EYTFirstDep(String departmanName, Manager manager) {
-        super(departmanName, manager);
+    public EYTFirstDep(String departmentName, Manager manager) {
+        super(departmentName, manager);
     }
 }
 class EYTThirdDep extends Department {
-    public EYTThirdDep(String departmanName, Manager manager) {
-        super(departmanName, manager);
+    public EYTThirdDep(String departmentName, Manager manager) {
+        super(departmentName, manager);
     }
 }
-class EYTSecondDep extends Department {
-    public EYTSecondDep(String departmanName, Manager manager) {
-        super(departmanName, manager);
-    }
-}
+
 class Rectorate extends Department {
-    public Rectorate(String departmanName, Manager manager) {
-        super(departmanName, manager);
+    public Rectorate(String departmentName, Manager manager) {
+        super(departmentName, manager);
     }
 }
 

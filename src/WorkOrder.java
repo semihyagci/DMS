@@ -5,15 +5,13 @@ interface Command {
     void Execute();
 }
 
-// This is the "Composite"
 abstract class WorkOrder implements Command {
     protected String name;
     protected ArrayList<WorkOrder> subWorkOrders;
     protected User workorderCreator;
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
-
-    protected static ArrayList<Document> rejectedDocs = new ArrayList<>();
+    protected static ArrayList<Document> rejectedDocuments=new ArrayList<>();
 
     public WorkOrder(String name, User workorderCreator) {
         this.name = name;
@@ -22,15 +20,14 @@ abstract class WorkOrder implements Command {
     }
 
     public ArrayList<Document> rejectedDocuments() {
+        ArrayList<Document> tempList=new ArrayList<>();
         for (Document document : documents) {
             if (!document.isSignedByManager()) {
-                if (rejectedDocs.contains(document)) {
-                    continue;
-                }
-                rejectedDocs.add(document);
+                rejectedDocuments.add(document);
+                tempList.add(document);
             }
         }
-        return rejectedDocs;
+        return tempList;
     }
     public static boolean checkingAllDocuments(WorkOrder workOrder) {
         boolean checkingAllDocuments = true;
@@ -84,16 +81,17 @@ abstract class WorkOrder implements Command {
 
     @Override
     public void Execute() {
+        ArrayList<Document> rejectedDocs;
         if (documents == null) {
             for (WorkOrder subWorkOrder : subWorkOrders) {
                 subWorkOrder.Execute();
             }
         } else {
             System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
-            for (int i = 0; i < departments.size(); i++) {
-                departments.get(i).Action(documents);
+            for (Department department : departments) {
+                department.Action(documents);
                 rejectedDocs = rejectedDocuments();
-                if (rejectedDocs.size()==i) {
+                if (!rejectedDocs.isEmpty()) {
                     break;
                 }
             }
@@ -109,7 +107,6 @@ abstract class WorkOrder implements Command {
 
 }
 
-// Also composite or Leaf
 class VacationApplicationWorkOrder extends WorkOrder {
     public VacationApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -117,7 +114,6 @@ class VacationApplicationWorkOrder extends WorkOrder {
     }
 }
 
-// Also composite or Leaf
 class VacationApplicationHRWorkOrder extends WorkOrder {
     public VacationApplicationHRWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -130,7 +126,6 @@ class VacationApplicationHRWorkOrder extends WorkOrder {
 
 }
 
-// Also composite or Leaf
 class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     public VacationApplicationAdministrationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -143,48 +138,29 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
 
 }
 
-// Also composite or Leaf
 class EYTApplicationWorkOrder extends WorkOrder {
     public EYTApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
-        Database.createDepartmentsForEYTApplication();
         Database.createDocumentsForEYTApplication(workorderCreator);
 
-        departments = Database.EYTDepartments;
-        documents = Database.EYTDocuments;
+        departments = Database.createPublicRelationsDepartmentsForEYTApplication();
+        documents = Database.dividingSpecificPartOfTheEYTDocumentsList(0, 0);
 
-        for (int i = 0; i < documents.size(); i++) {
-            documents.get(i).Attach(workorderCreator);
+        for (Document document : documents) {
+            document.Attach(workorderCreator);
         }
     }
 }
 
-// Also composite or Leaf
-class EYTApplicationSecondWorkOrder extends WorkOrder {
-    protected Stack<Department> departments;
-    protected ArrayList<Document> documents;
+class EYTApplicationSSAWorkOrder extends WorkOrder {
 
-    public EYTApplicationSecondWorkOrder(String name, User workOrderCreator) {
+    public EYTApplicationSSAWorkOrder(String name, User workOrderCreator) {
         super(name, workOrderCreator);
-        departments = Database.createSecondSubDepartmentsForEYTApplication();
-        documents = Database.dividingSpecificPartOfTheEYTDocumentsList(1, 1);
+        departments = Database.createSSADepartmentsForEYTApplication();
+        documents = Database.dividingSpecificPartOfTheEYTDocumentsList(1, 2);
         for (Document document : documents) {
             document.Attach(workOrderCreator);
         }
     }
 }
 
-// Also composite or Leaf
-class EYTApplicationFirstWorkOrder extends WorkOrder {
-    protected Stack<Department> departments;
-    protected ArrayList<Document> documents;
-
-    public EYTApplicationFirstWorkOrder(String name, User workorderCreator) {
-        super(name, workorderCreator);
-        //departments = Database.createFirstSubDepartmentsForEYTApplication();
-        documents = Database.dividingSpecificPartOfTheVacationDocumentsList(0, 0);
-        for (Document document : documents) {
-            document.Attach(workorderCreator);
-        }
-    }
-}

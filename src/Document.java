@@ -1,4 +1,3 @@
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,8 +29,8 @@ public abstract class Document {
     }
     // Notify The Observers
     public void Notify() {
-        for (int i = 0; i < users.size(); i++) {
-            users.get(i).Update(this);
+        for (User user : users) {
+            user.Update(this);
         }
     }
 
