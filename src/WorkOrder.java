@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
+// INTERFACE OF COMMAND (declares an interface for executing the operation)
 interface Command {
     void Execute();
 }
-
+// CONCRETE COMMAND 
 abstract class WorkOrder implements Command {
     protected String name;
     protected ArrayList<WorkOrder> subWorkOrders;
@@ -13,12 +14,13 @@ abstract class WorkOrder implements Command {
     protected ArrayList<Document> documents;
     protected static ArrayList<Document> rejectedDocuments=new ArrayList<>();
 
+    //CONSTRUCTOR
     public WorkOrder(String name, User workorderCreator) {
         this.name = name;
         this.workorderCreator = workorderCreator;
         subWorkOrders = new ArrayList<>();
     }
-
+    // ARRAYLIST OF REJECTED DOCUMENTS BY MANAGERS
     public ArrayList<Document> rejectedDocuments() {
         ArrayList<Document> tempList=new ArrayList<>();
         for (Document document : documents) {
@@ -29,6 +31,7 @@ abstract class WorkOrder implements Command {
         }
         return tempList;
     }
+    // CHECKS FOR ALL DOCUMENTS ARE SIGNED
     public static boolean checkingAllDocuments(WorkOrder workOrder) {
         boolean checkingAllDocuments = true;
         if (workOrder.documents!=null){
@@ -53,15 +56,15 @@ abstract class WorkOrder implements Command {
         }
         return checkingAllDocuments;
     }
-
+    // GET NAME OF WORKORDER
     public String getName() {
         return name;
     }
-
+    // ADD SUBWORKORDER TO WORKORDER
     public void Add(WorkOrder d) {
         subWorkOrders.add(d);
     }
-
+    // REMOVE SUBWORKORDER FROM WORKORDER
     public void Remove(WorkOrder d) {
         for (int i = 0; i < subWorkOrders.size(); i++) {
             if (subWorkOrders.get(i).getName().equals(d.getName())) {
@@ -70,7 +73,7 @@ abstract class WorkOrder implements Command {
             }
         }
     }
-
+    // DISPLAY THE WORKORDER TREE (STRUCTURE)
     public void Display(int indent) {
         for (int i = 1; i <= indent; i++) System.out.print("-");
         System.out.println("+ " + getName());
@@ -78,7 +81,7 @@ abstract class WorkOrder implements Command {
             subWorkOrder.Display(indent + 2);
         }
     }
-
+    // EXECUTES THE WORKORDER AND APPLY THE SCENARIO
     @Override
     public void Execute() {
         ArrayList<Document> rejectedDocs;
@@ -107,13 +110,14 @@ abstract class WorkOrder implements Command {
 
 }
 
+//CONCRETE SUBWORKORDERS THAT IMPLEMENTS COMMAND INTERFACE
 class VacationApplicationWorkOrder extends WorkOrder {
     public VacationApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
         Database.createDocumentsForVacationApplication(workorderCreator);
     }
 }
-
+//CONCRETE SUBWORKORDERS THAT IMPLEMENTS COMMAND INTERFACE
 class VacationApplicationHRWorkOrder extends WorkOrder {
     public VacationApplicationHRWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -125,7 +129,7 @@ class VacationApplicationHRWorkOrder extends WorkOrder {
     }
 
 }
-
+//CONCRETE SUBWORKORDERS THAT IMPLEMENTS COMMAND INTERFACE
 class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     public VacationApplicationAdministrationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -137,7 +141,7 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     }
 
 }
-
+//CONCRETE SUBWORKORDERS THAT IMPLEMENTS COMMAND INTERFACE
 class EYTApplicationWorkOrder extends WorkOrder {
     public EYTApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -151,7 +155,7 @@ class EYTApplicationWorkOrder extends WorkOrder {
         }
     }
 }
-
+//CONCRETE SUBWORKORDERS THAT IMPLEMENTS COMMAND INTERFACE
 class EYTApplicationSSAWorkOrder extends WorkOrder {
 
     public EYTApplicationSSAWorkOrder(String name, User workOrderCreator) {

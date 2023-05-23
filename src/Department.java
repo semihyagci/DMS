@@ -31,14 +31,14 @@ abstract public class Department {
         }
     }
 }
-//Manager Class
+//MANAGER CLASS 
 class Manager {
     private final String name;
-
+    // MANAGER CONSTRUCTOR
     public Manager(String name) {
         this.name = name;
     }
-    // Signing by manager
+    // SIGNING BY MANAGER
     public void signingByManager(Document document) {
         Scanner scan = new Scanner(System.in);
         int sign;
@@ -49,6 +49,7 @@ class Manager {
         System.out.print("Press (1) to sign or press (0) to reject: ");
         sign = scan.nextInt();
         while (true) {
+            //SIGNED
             if (sign == 1) {
                 document.setSignedByManager(true);
                 System.out.println("***************************");
@@ -56,6 +57,7 @@ class Manager {
                 System.out.println("***************************");
                 break;
             }
+            //NOT SIGNED
             if (sign == 0) {
                 document.setSignedByManager(false);
                 System.out.println("***************************");
@@ -70,35 +72,37 @@ class Manager {
         }
     }
 }
-// DEPARTMENTS
+// DEPARTMENTS 
 class EngineeringDepartment extends Department {
     public EngineeringDepartment(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-
+// DEPARTMENTS 
 class EngineeringDeanery extends Department {
     public EngineeringDeanery(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
+// DEPARTMENTS 
 class EYTFirstDep extends Department {
     public EYTFirstDep(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
+// DEPARTMENTS 
 class EYTThirdDep extends Department {
     public EYTThirdDep(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-
+// DEPARTMENTS 
 class Rectorate extends Department {
     public Rectorate(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-
+// DEPARTMENTS 
 class HumanResources extends Department {
 
     public HumanResources(String departmentName, Manager manager) {

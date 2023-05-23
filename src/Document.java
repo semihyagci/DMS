@@ -1,24 +1,25 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//subject of observer(user)
+//SUBJECT OF OBSERVER (USER)
 public abstract class Document {
+    // ATTRIBUTES
     protected boolean isSignedByManager;
     protected String name;
     protected String address;
     protected ArrayList<User> users;
-
+    //CONSTRUCTOR
     public Document(String name, String address) {
         this.name = name;
         this.address = address;
         users = new ArrayList<>();
         isSignedByManager = false;
     }
-    // Register The Observers
+    // REGISTERING THE OBSERVERS
     public void Attach(User user) {
         users.add(user);
     }
-    // Unregister
+    // UNREGISTERING
     public void Detach(User user) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getName().equals(user.getName())) {
@@ -27,41 +28,43 @@ public abstract class Document {
             }
         }
     }
-    // Notify The Observers
+    // NOTIFY ALL THE OBSERVERS TO UPDATE
     public void Notify() {
         for (User user : users) {
             user.Update(this);
         }
     }
 
-
+    // CHECK FOR IS MANAGER SIGNed
     public boolean isSignedByManager() {
         return isSignedByManager;
     }
-
+    // VERIFY THAT ALL FIELDS ARE FILLED
     public Boolean verifyAllFields() {
         return (name != null) && (address != null);
     }
-
+    // SETTING THE MANAGER SIGN FOR DOCUMENT
     abstract public void setSignedByManager(boolean sign);
 
+    // STORES THE SIGNED FILES (DOCUMENTS)
     abstract public void storeSignedFile(Document document);
 
+    // NAME GETTER
     public String getName() {
         return name;
     }
-
+    // ADDRESS GETTER
     public String getAddress() {
         return address;
     }
 }
 
-//Concrete Document
+//CONCRETE DOCUMENT
 class WordDocument extends Document {
     public WordDocument(String name, String address) {
         super(name, address);
     }
-
+    // OVERRIDED METHODS OF DOCUMENT CLASS
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
@@ -80,12 +83,12 @@ class WordDocument extends Document {
     }
 
 }
-//Concrete Document
+//CONCRETE DOCUMENT 
 class PDFDocument extends Document {
     public PDFDocument(String name, String address) {
         super(name, address);
     }
-
+    // OVERRIDED METHODS OF DOCUMENT CLASS
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
@@ -104,10 +107,13 @@ class PDFDocument extends Document {
     }
 }
 
+// ABSTRACT FACTORY INTERFACE FOR CONCRETEFACTORY
 interface AbstractDocumentFactory{
+    // CREATE DOCUMENT METHOD OF ABSTRACT FACTORY
     Document createDocument(String name, String address);
 }
 
+// CONCRETEFACTORY (CONCRETECREATOR)
 class DocumentFactory implements AbstractDocumentFactory {
     private static DocumentFactory uniqueDocumentFactoryInstance=null;
 
@@ -119,7 +125,7 @@ class DocumentFactory implements AbstractDocumentFactory {
             uniqueDocumentFactoryInstance=new DocumentFactory();
         return uniqueDocumentFactoryInstance;
     }
-
+    // RETURN AN INSTANCE OF CONCRETE PRODUCT 
     @Override
     public Document createDocument(String name, String address) {
         Scanner scan = new Scanner(System.in);
