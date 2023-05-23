@@ -3,9 +3,10 @@ import java.util.Stack;
 
 // Interface of Command (declares an interface for executing the operation)
 interface Command {
-    void Execute();
+    void startOperationOfWorkOrder();
 }
-// Concrete Command
+//WorkOrder Class(Command of Command Pattern)
+//This class is responisble with forcing to apply operations on Documents at Departments.
 abstract class WorkOrder implements Command {
     // Attributes of Workorder
     protected String name;
@@ -17,11 +18,12 @@ abstract class WorkOrder implements Command {
 
     //Constructor
     public WorkOrder(String name, User workorderCreator) {
+        //The system initialize the departments and the documents of the WorkOrder according to WorkOrder Type. For example: VacationApplicationWorkOrder has related documents with VacationApplication.
         this.name = name;
         this.workorderCreator = workorderCreator;
         subWorkOrders = new ArrayList<>();
     }
-    // Arraylist of rejected documents by manager
+    // Method for creating and returning an Arraylist of rejected documents by managers
     public ArrayList<Document> rejectedDocuments() {
         ArrayList<Document> tempList=new ArrayList<>();
         for (Document document : documents) {
@@ -32,7 +34,7 @@ abstract class WorkOrder implements Command {
         }
         return tempList;
     }
-    // Check for all documents are signed
+    //Method for checking all documents are signed
     public static boolean checkingAllDocuments(WorkOrder workOrder) {
         boolean checkingAllDocuments = true;
         if (workOrder.documents!=null){
@@ -74,7 +76,7 @@ abstract class WorkOrder implements Command {
             }
         }
     }
-    // Display the workorder structure (tree)
+    // Display the workorder structure like a tree structure
     public void Display(int indent) {
         for (int i = 1; i <= indent; i++) System.out.print("-");
         System.out.println("+ " + getName());
@@ -82,18 +84,19 @@ abstract class WorkOrder implements Command {
             subWorkOrder.Display(indent + 2);
         }
     }
-    // Executes the workorder and apply the scenario
+    //Method for starting the related operations on the related WorkOrder
+    //This method is Execute method of Command Pattern
     @Override
-    public void Execute() {
+    public void startOperationOfWorkOrder() {
         ArrayList<Document> rejectedDocs;
         if (documents == null) {
             for (WorkOrder subWorkOrder : subWorkOrders) {
-                subWorkOrder.Execute();
+                subWorkOrder.startOperationOfWorkOrder();
             }
         } else {
             System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
             for (Department department : departments) {
-                department.Action(documents);
+                department.deparmentCheckOperation(documents);
                 rejectedDocs = rejectedDocuments();
                 if (!rejectedDocs.isEmpty()) {
                     break;
@@ -101,7 +104,7 @@ abstract class WorkOrder implements Command {
             }
             if (subWorkOrders != null) {
                 for (WorkOrder subWorkOrder : subWorkOrders) {
-                    subWorkOrder.Execute();
+                    subWorkOrder.startOperationOfWorkOrder();
                 }
             }
 
@@ -110,14 +113,16 @@ abstract class WorkOrder implements Command {
     }
 
 }
-// Concrete Subworkorders that implements command interface
+// ConcreteWorkOrder1 Class
+//This class is responsible with starting Academician Vacation Application WorkOrder scenario in a university.
 class VacationApplicationWorkOrder extends WorkOrder {
     public VacationApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
         Database.createDocumentsForVacationApplication(workorderCreator);
     }
 }
-// Concrete Subworkorders that implements command interface
+// ConcreteWorkOrder2 Class
+//This class is a SubWorkOrder of VacationApplicationWorkOrder
 class VacationApplicationHRWorkOrder extends WorkOrder {
     public VacationApplicationHRWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -129,7 +134,8 @@ class VacationApplicationHRWorkOrder extends WorkOrder {
     }
 
 }
-// Concrete Subworkorders that implements command interface
+// ConcreteWorkOrder3 Class
+//This class is a SubWorkOrder of VacationApplicationWorkOrder
 class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     public VacationApplicationAdministrationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
@@ -141,27 +147,29 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     }
 
 }
-// Concrete Subworkorders that implements command interface
-class EYTApplicationWorkOrder extends WorkOrder {
-    public EYTApplicationWorkOrder(String name, User workorderCreator) {
+// ConcreteWorkOrder4 Class
+//This class is responsible with starting Retirement Application WorkOrder scenario in a Social Security Agency.
+class RetirementApplicationWorkOrder extends WorkOrder {
+    public RetirementApplicationWorkOrder(String name, User workorderCreator) {
         super(name, workorderCreator);
-        Database.createDocumentsForEYTApplication(workorderCreator);
+        Database.createDocumentsForRetirementApplication(workorderCreator);
 
-        departments = Database.createPublicRelationsDepartmentsForEYTApplication();
-        documents = Database.dividingSpecificPartOfTheEYTDocumentsList(0, 0);
+        departments = Database.createPublicRelationsDepartmentsForRetirementApplication();
+        documents = Database.dividingSpecificPartOfTheRetirementDocumentsList(0, 0);
 
         for (Document document : documents) {
             document.Attach(workorderCreator);
         }
     }
 }
-// Concrete Subworkorders that implements command interface
-class EYTApplicationSSAWorkOrder extends WorkOrder {
+// ConcreteWorkOrder5 Class
+//This class is a SubWorkOrder of RetirementApplicationWorkOrder
+class RetirementApplicationSSAWorkOrder extends WorkOrder {
 
-    public EYTApplicationSSAWorkOrder(String name, User workOrderCreator) {
+    public RetirementApplicationSSAWorkOrder(String name, User workOrderCreator) {
         super(name, workOrderCreator);
-        departments = Database.createSSADepartmentsForEYTApplication();
-        documents = Database.dividingSpecificPartOfTheEYTDocumentsList(1, 2);
+        departments = Database.createSSADepartmentsForRetirementApplication();
+        documents = Database.dividingSpecificPartOfTheRetirementDocumentsList(1, 2);
         for (Document document : documents) {
             document.Attach(workOrderCreator);
         }

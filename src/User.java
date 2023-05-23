@@ -1,10 +1,12 @@
+//Interface of Observer
 interface Observer {
-    void Update(Document document);
+    void UpdateDocument(Document document);
 }
-// User class
+// User class(Invoker of Command Pattern)
+// This class invokes the WorkOrder workflow.
 class User implements Observer {
-    //Attributes
-    private final String name;
+    //Attributes of User
+    private String name;
     private int age;
     private String address;
 
@@ -32,18 +34,17 @@ class User implements Observer {
         return address;
     }
 
-    //Observer
-    public void Update(Document document) {
+    //Observer's Update method for updating the Observer's states if Notify() method is invoked.
+    public void UpdateDocument(Document document) {
         //Update fields in here to show User.
         documentName = document.getName();
         documentIsSignedByManager = document.isSignedByManager();
         documentAddress = document.getAddress();
         System.out.println("Your document with the \n name of: " + documentName + "\n address of: " + documentAddress + "  has been approved!\n");
-
     }
 
-    //Invoker
+    //Invoking command method.
     public void sendWorkOrder(Command command) {
-        command.Execute();
+        command.startOperationOfWorkOrder();
     }
 }

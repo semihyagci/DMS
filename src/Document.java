@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//Subject of Observer (user)
+
+//Document Class
+//Subject of Observer(User)
 public abstract class Document {
-    // Attributes
+    // Attributes for Document
     protected boolean isSignedByManager;
     protected String name;
     protected String address;
     protected ArrayList<User> users;
+
     //Constructor
     public Document(String name, String address) {
         this.name = name;
@@ -15,11 +18,13 @@ public abstract class Document {
         users = new ArrayList<>();
         isSignedByManager = false;
     }
-    // Registering the Observers
+
+    // Attaching the Observers with the documents.
     public void Attach(User user) {
         users.add(user);
     }
-    // Unregistering
+
+    // Detaching the Observers with the documents.
     public void Detach(User user) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getName().equals(user.getName())) {
@@ -28,44 +33,49 @@ public abstract class Document {
             }
         }
     }
-    // Notify all the Observers to update
+
+    // Notify all the Observers to update their state.
     public void Notify() {
         for (User user : users) {
-            user.Update(this);
+            user.UpdateDocument(this);
         }
     }
 
-    // Check for is manager signed
+    // Method for checking for is manager signed the document
     public boolean isSignedByManager() {
         return isSignedByManager;
     }
-    // Verify all fields are filled
+
+    //Method for verifying all fields are filled
     public Boolean verifyAllFields() {
         return (name != null) && (address != null);
     }
-    // Setting the manager sign for document
+
+    //Method for setting the manager sign for document
     abstract public void setSignedByManager(boolean sign);
 
-    // Store the signed files (documents)
+    //Method for storing the signed documents
     abstract public void storeSignedFile(Document document);
 
-    // Name getter
+    //Name getter
     public String getName() {
         return name;
     }
-    // Address getter
+    //Address getter
     public String getAddress() {
         return address;
     }
 }
 
-//Concrete document
+//Concrete Product(WordDocument) of Factory
 class WordDocument extends Document {
     //Constructor
     public WordDocument(String name, String address) {
         super(name, address);
     }
     // Overrided methods of document class
+
+    //Method for signing WORD document differently.
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
@@ -76,7 +86,7 @@ class WordDocument extends Document {
         }
         isSignedByManager = sign;
     }
-    // Overrided methods of document class
+    //Method for storing the WORD document differently.
     @Override
     public void storeSignedFile(Document document) {
         System.out.println("The signed WORD document is storing in the central database...\n");
@@ -84,12 +94,15 @@ class WordDocument extends Document {
     }
 
 }
-//Concrete Document 
+//Concrete Product(PDFDocument) of Factory
 class PDFDocument extends Document {
+    //Constructor
     public PDFDocument(String name, String address) {
         super(name, address);
     }
-    // Overrided methods of document class
+    //Overrided methods of document class
+
+    //Method for signing PDF document differently.
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
@@ -100,38 +113,45 @@ class PDFDocument extends Document {
         }
         isSignedByManager = sign;
     }
-    // Overrided methods of document class
+    //Method for storing the PDF document differently.
     @Override
     public void storeSignedFile(Document document) {
         System.out.println("The signed PDF document is storing in the central database...\n");
         Database.storeSignedDocument(document);
     }
 }
-// Abstract factory interface for Concretefactory
+// AbstractCreator Interface
 interface AbstractDocumentFactory{
     // Create document method of Abstractfactory
     Document createDocument(String name, String address);
 }
 
-// ConcreteFactory (ConcreteCreator)
+//ConcreteFactory (ConcreteCreator) - Singleton
+//This class is responsible with Product(Document) creation.
+//There should be only one instance of DocumentFactory for this system, we controlled the object creation of DocumentFactory with making this class Singleton.
 class DocumentFactory implements AbstractDocumentFactory {
+    //Singleton's uniqueInstance
     private static DocumentFactory uniqueDocumentFactoryInstance=null;
-    // This is private constructor to prevent usage of "new" keyword for singleton pattern
+
+    // This is private constructor to prevent usage of "new" keyword for Singleton pattern
     private DocumentFactory() {
     }
 
+    //Singleton's getInstance Method
     public static DocumentFactory getDocumentFactoryInstance(){
         if (uniqueDocumentFactoryInstance==null)
             uniqueDocumentFactoryInstance=new DocumentFactory();
         return uniqueDocumentFactoryInstance;
     }
-    // Return an instance of concrete product
+
+    //Create and return an instance of concrete product
     @Override
     public Document createDocument(String name, String address) {
         Scanner scan = new Scanner(System.in);
         while (true) {
             System.out.print("Please specify the format of the document "+name+".\n");
             String format = scan.next();
+            //The equalsIgnoreCase() method compares two strings, ignoring lower case and upper case differences. This method returns true if the strings are equal, and false if not.
             if (format.equalsIgnoreCase("wORd")) {
                 return new WordDocument(name, address);
             }

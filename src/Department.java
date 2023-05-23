@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-// Departmen class 
+
+// Department class (Receiver of the WorkOrder(Command))
+//This class is responisble with checking documents fields and signing documents regarding to some procedures which is mentioned on Project Document.
 abstract public class Department {
-    // Attributes of departments
+    // Attributes of Department
     protected String departmentName;
     protected Manager manager;
     // Constructor
@@ -19,8 +21,9 @@ abstract public class Department {
         return departmentName;
     }
 
-    // Manager signing in Department
-    public void Action(ArrayList<Document> documents) {
+    //The effect of the WorkOrder(ConcreteCommand) in the Receiver side. In that method it's checked the fields of the documents and if they are OK we send it to manager to sign it.
+    //This method is Action method of Receiver in Command Pattern
+    public void deparmentCheckOperation(ArrayList<Document> documents) {
         for (Document document : documents) {
             Boolean status = document.verifyAllFields();
             if (status) {
@@ -33,14 +36,15 @@ abstract public class Department {
     }
 }
 //Manager class
+//This class is responsible with signing document if the document is passed through the Department's Action method.
 class Manager {
-    //Attributes for manager
-    private final String name;
+    //Attributes for Manager
+    private String name;
     // Manager constructor
     public Manager(String name) {
         this.name = name;
     }
-    // SIGNING BY MANAGER
+    // Signing Method for Manager
     public void signingByManager(Document document) {
         Scanner scan = new Scanner(System.in);
         int sign;
@@ -74,39 +78,47 @@ class Manager {
         }
     }
 }
-// Concrete Departments
+// Concrete Departments for Vacation Application
 class EngineeringDepartment extends Department {
     public EngineeringDepartment(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// Concrete Departments 
+// Concrete Departments for Vacation Application
 class EngineeringDeanery extends Department {
     public EngineeringDeanery(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// Concrete Departments 
-class EYTFirstDep extends Department {
-    public EYTFirstDep(String departmentName, Manager manager) {
-        super(departmentName, manager);
-    }
-}
-// Concrete Departments 
-class EYTThirdDep extends Department {
-    public EYTThirdDep(String departmentName, Manager manager) {
-        super(departmentName, manager);
-    }
-}
-// Concrete Departments 
+
+// Concrete Departments for Vacation Application
 class Rectorate extends Department {
     public Rectorate(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// Concrete Departments 
+// Concrete Departments for Vacation Application
 class HumanResources extends Department {
     public HumanResources(String departmentName, Manager manager) {
+        super(departmentName, manager);
+    }
+}
+
+// Concrete Departments for Retirement Application
+class SSAPublicRelation extends Department {
+    public SSAPublicRelation(String departmentName, Manager manager) {
+        super(departmentName, manager);
+    }
+}
+// Concrete Departments for Retirement Application
+class SSARetirementPremiumPaymentControl extends Department {
+    public SSARetirementPremiumPaymentControl(String departmentName, Manager manager) {
+        super(departmentName, manager);
+    }
+}
+// Concrete Departments for Retirement Application
+class SSARetirementInsuredDayControl extends Department {
+    public SSARetirementInsuredDayControl(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
