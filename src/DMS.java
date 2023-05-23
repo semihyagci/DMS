@@ -29,9 +29,9 @@ public class DMS {
         WorkOrder workOrder;
         System.out.println("Press 1 for Vacation Application\nPress 2 for EYT Application\nPress -1 for exit.");
         int choice = input.nextInt();
-        //CHOOSING THE APPLICATION
+        //Choosing the application
         while (choice != -1) {
-            //CHOOSING VACATION APPLICATION
+            //Choosing Vacation Application
             if (choice == 1) {
                 workOrder = new VacationApplicationWorkOrder("Vacation Request", user);
                 WorkOrder vacationHrCheckSubWorkOrder = new VacationApplicationHRWorkOrder("Vacation Check Request Human Resources", user);
@@ -57,7 +57,7 @@ public class DMS {
                 }
                 break;
             } 
-            // CHOOSING EYT APPLICATION
+            // Choosing EYT Application
             else if (choice == 2) {
                 workOrder = new EYTApplicationWorkOrder("EYT Request", user);
                 WorkOrder eytSecondWorkOrder = new EYTApplicationSSAWorkOrder("EYT Request SSA Check", user);
@@ -86,7 +86,7 @@ public class DMS {
 
         }
     }
-    //MAIN CLASS
+    //Main Class 
     public static void main(String[] args) {
         User user = new User("Semih", 19, "Buca");
         DMS dms = DMS.getDMSInstance(user);
@@ -98,6 +98,7 @@ public class DMS {
 //This class is not related with the patterns which are developed in the project.
 //This class is just creating departments and regarding documents needed in the related workorder,Also we store the signed documents in this central database class.
 class Database {
+    //Documents and Departments for related workorders.
     public static ArrayList<Document> signedDocuments = new ArrayList<>();
     public static ArrayList<Document> VacationDocuments = new ArrayList<>();
     public static Stack<Department> HRVacationDepartments = new Stack<>();
@@ -118,13 +119,13 @@ class Database {
             signedDocuments.add(document);
         }
     }
-    //CREATE HR DEP. FOR V.A.
+    //Create HR Department for Vacation Application
     public static Stack<Department> createHrDepartmentsForVacationApplication() {
         Department hr = new HumanResources("Human Resources", new Manager("Didem Tiknaz"));
         HRVacationDepartments.add(hr);
         return HRVacationDepartments;
     }
-    //CREATE ADMINISTRATION DEP. FOR V.A.
+    //Create Administration Departmen for Vacation Application
     public static Stack<Department> createAdministrationDepartmentsForVacationApplication() {
         Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin"));
         Department engineeringDeanery = new EngineeringDeanery("Engineering Deanery", new Manager("Yasar Guneri Sahin"));
@@ -135,13 +136,13 @@ class Database {
         AdministrationVacationDepartments.add(rectorate);
         return AdministrationVacationDepartments;
     }
-    // CREATE PUBLIC RELATIONS DEP. FOR EYT A.
+    // Create Public Relations for EYT Application
     public static Stack<Department> createPublicRelationsDepartmentsForEYTApplication() {
         Department Public_Relations = new EYTFirstDep("Public Relations Department", new Manager("Yasin Çolak"));
         PublicRelationsEYTDepartments.add(Public_Relations);
         return PublicRelationsEYTDepartments;
     }   
-    // CREATE SSA DEP. FOR EYT A.
+    // Create SSA Department for EYT Application
     public static Stack<Department> createSSADepartmentsForEYTApplication() {
         Department Payment_Department = new EYTThirdDep("Payment Department", new Manager("Hasan Yücetaş"));
         Department Tax_Department = new EYTThirdDep("Tax Department", new Manager("Hande Baş"));
@@ -150,7 +151,7 @@ class Database {
         SSAEYTDepartments.add(Tax_Department);
         return SSAEYTDepartments;
     }
-    // CREATE DOCUMENTS FOR EYT APPLICATION
+    // Create Documents for EYT Application
     public static void createDocumentsForEYTApplication(User user) {
         System.out.println("For this application; you need to get these 3 documents signed.\n");
         System.out.println("""
@@ -158,7 +159,7 @@ class Database {
                 Formal Working Days Document
                 Retirement Insurance Payment Document
                 """);
-        //DOCUMENT FACTORY
+        //Document Factory
         DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
         Document doc1 = documentFactory.createDocument("Formal Age Document", user.getAddress());
         Document doc2 = documentFactory.createDocument("Formal Working Days Document", user.getAddress());
@@ -169,7 +170,7 @@ class Database {
 
     }
 
-    // CREATE DOCUMENTS FOR VACATION APPLICATION
+    // Create Documents for Vacaiton Application
     public static void createDocumentsForVacationApplication(User user) {
         System.out.println("For this application; you need to get these 3 documents signed.\n");
         System.out.println("""
@@ -177,7 +178,7 @@ class Database {
                 Application Form
                 Legal Working Day Document
                 """);
-        // DOCUMENT FACTORY
+        // Document Factory
         DocumentFactory documentFactory = DocumentFactory.getDocumentFactoryInstance();
         Document doc1 = documentFactory.createDocument("Vacation Permission from Administration Document", user.getAddress());
         Document doc2 = documentFactory.createDocument("Application Form", user.getAddress());
@@ -186,7 +187,7 @@ class Database {
         VacationDocuments.add(doc2);
         VacationDocuments.add(doc3);
     }
-    // PARSING THE DOCUMENTS FOR VACATION APPLICATION
+    // Parsing the documents for vacation application
     public static ArrayList<Document> dividingSpecificPartOfTheVacationDocumentsList(int firstIndex, int lastIndex) {
         ArrayList<Document> temp = new ArrayList<>();
         for (int i = firstIndex; i <= lastIndex; i++) {
@@ -194,7 +195,7 @@ class Database {
         }
         return temp;
     }
-    // PARSING THE DOCUMENTS FOR EYT APPLICATION
+    // Parsing the documents for EYT application
     public static ArrayList<Document> dividingSpecificPartOfTheEYTDocumentsList(int firstIndex, int lastIndex) {
         ArrayList<Document> temp = new ArrayList<>();
         for (int i = firstIndex; i <= lastIndex; i++) {

@@ -1,19 +1,20 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-
+// Departmen class 
 abstract public class Department {
+    // Attributes of departments
     protected String departmentName;
     protected Manager manager;
-
+    // Constructor
     public Department(String departmentName, Manager manager) {
         this.departmentName = departmentName;
         this.manager = manager;
     }
-
+    // Return the manager
     public Manager getManager() {
         return manager;
     }
-
+    // Returns the departments name
     public String getDepartmentName() {
         return departmentName;
     }
@@ -31,10 +32,11 @@ abstract public class Department {
         }
     }
 }
-//MANAGER CLASS 
+//Manager class
 class Manager {
+    //Attributes for manager
     private final String name;
-    // MANAGER CONSTRUCTOR
+    // Manager constructor
     public Manager(String name) {
         this.name = name;
     }
@@ -49,7 +51,7 @@ class Manager {
         System.out.print("Press (1) to sign or press (0) to reject: ");
         sign = scan.nextInt();
         while (true) {
-            //SIGNED
+            //Signed
             if (sign == 1) {
                 document.setSignedByManager(true);
                 System.out.println("***************************");
@@ -57,7 +59,7 @@ class Manager {
                 System.out.println("***************************");
                 break;
             }
-            //NOT SIGNED
+            //Not signed
             if (sign == 0) {
                 document.setSignedByManager(false);
                 System.out.println("***************************");
@@ -72,39 +74,38 @@ class Manager {
         }
     }
 }
-// DEPARTMENTS 
+// Concrete Departments
 class EngineeringDepartment extends Department {
     public EngineeringDepartment(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// DEPARTMENTS 
+// Concrete Departments 
 class EngineeringDeanery extends Department {
     public EngineeringDeanery(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// DEPARTMENTS 
+// Concrete Departments 
 class EYTFirstDep extends Department {
     public EYTFirstDep(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// DEPARTMENTS 
+// Concrete Departments 
 class EYTThirdDep extends Department {
     public EYTThirdDep(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// DEPARTMENTS 
+// Concrete Departments 
 class Rectorate extends Department {
     public Rectorate(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
-// DEPARTMENTS 
+// Concrete Departments 
 class HumanResources extends Department {
-
     public HumanResources(String departmentName, Manager manager) {
         super(departmentName, manager);
     }

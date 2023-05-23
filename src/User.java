@@ -1,9 +1,9 @@
 interface Observer {
     void Update(Document document);
 }
-// USER CLASS
+// User class
 class User implements Observer {
-    //ATTRIBUTES
+    //Attributes
     private final String name;
     private int age;
     private String address;
@@ -13,28 +13,28 @@ class User implements Observer {
     private String documentName;
     private String documentAddress;
 
-    // CONSTRUCTOR OF USER
+    // Constructor of USer
     public User(String name, int age, String address) {
         this.name=name;
         this.age=age;
         this.address=address;
     }
-    // GET USER NAME
+    // Get user name
     public String getName() {
         return name;
     }
-    // GET USER AGE
+    // Get user age
     public int getAge() {
         return age;
     }
-    // GET USER ADDRESS
+    // Get user address
     public String getAddress() {
         return address;
     }
 
-    //OBSERVER
+    //Observer
     public void Update(Document document) {
-        //UPDATE FIELDS IN HERE TO SHOW USER
+        //Update fields in here to show User.
         documentName = document.getName();
         documentIsSignedByManager = document.isSignedByManager();
         documentAddress = document.getAddress();
@@ -42,7 +42,7 @@ class User implements Observer {
 
     }
 
-    //INVOKER
+    //Invoker
     public void sendWorkOrder(Command command) {
         command.Execute();
     }

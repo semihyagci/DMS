@@ -1,25 +1,25 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//SUBJECT OF OBSERVER (USER)
+//Subject of Observer (user)
 public abstract class Document {
-    // ATTRIBUTES
+    // Attributes
     protected boolean isSignedByManager;
     protected String name;
     protected String address;
     protected ArrayList<User> users;
-    //CONSTRUCTOR
+    //Constructor
     public Document(String name, String address) {
         this.name = name;
         this.address = address;
         users = new ArrayList<>();
         isSignedByManager = false;
     }
-    // REGISTERING THE OBSERVERS
+    // Registering the Observers
     public void Attach(User user) {
         users.add(user);
     }
-    // UNREGISTERING
+    // Unregistering
     public void Detach(User user) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getName().equals(user.getName())) {
@@ -28,43 +28,44 @@ public abstract class Document {
             }
         }
     }
-    // NOTIFY ALL THE OBSERVERS TO UPDATE
+    // Notify all the Observers to update
     public void Notify() {
         for (User user : users) {
             user.Update(this);
         }
     }
 
-    // CHECK FOR IS MANAGER SIGNed
+    // Check for is manager signed
     public boolean isSignedByManager() {
         return isSignedByManager;
     }
-    // VERIFY THAT ALL FIELDS ARE FILLED
+    // Verify all fields are filled
     public Boolean verifyAllFields() {
         return (name != null) && (address != null);
     }
-    // SETTING THE MANAGER SIGN FOR DOCUMENT
+    // Setting the manager sign for document
     abstract public void setSignedByManager(boolean sign);
 
-    // STORES THE SIGNED FILES (DOCUMENTS)
+    // Store the signed files (documents)
     abstract public void storeSignedFile(Document document);
 
-    // NAME GETTER
+    // Name getter
     public String getName() {
         return name;
     }
-    // ADDRESS GETTER
+    // Address getter
     public String getAddress() {
         return address;
     }
 }
 
-//CONCRETE DOCUMENT
+//Concrete document
 class WordDocument extends Document {
+    //Constructor
     public WordDocument(String name, String address) {
         super(name, address);
     }
-    // OVERRIDED METHODS OF DOCUMENT CLASS
+    // Overrided methods of document class
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
@@ -75,7 +76,7 @@ class WordDocument extends Document {
         }
         isSignedByManager = sign;
     }
-
+    // Overrided methods of document class
     @Override
     public void storeSignedFile(Document document) {
         System.out.println("The signed WORD document is storing in the central database...\n");
@@ -83,12 +84,12 @@ class WordDocument extends Document {
     }
 
 }
-//CONCRETE DOCUMENT 
+//Concrete Document 
 class PDFDocument extends Document {
     public PDFDocument(String name, String address) {
         super(name, address);
     }
-    // OVERRIDED METHODS OF DOCUMENT CLASS
+    // Overrided methods of document class
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
@@ -99,24 +100,23 @@ class PDFDocument extends Document {
         }
         isSignedByManager = sign;
     }
-
+    // Overrided methods of document class
     @Override
     public void storeSignedFile(Document document) {
         System.out.println("The signed PDF document is storing in the central database...\n");
         Database.storeSignedDocument(document);
     }
 }
-
-// ABSTRACT FACTORY INTERFACE FOR CONCRETEFACTORY
+// Abstract factory interface for Concretefactory
 interface AbstractDocumentFactory{
-    // CREATE DOCUMENT METHOD OF ABSTRACT FACTORY
+    // Create document method of Abstractfactory
     Document createDocument(String name, String address);
 }
 
-// CONCRETEFACTORY (CONCRETECREATOR)
+// ConcreteFactory (ConcreteCreator)
 class DocumentFactory implements AbstractDocumentFactory {
     private static DocumentFactory uniqueDocumentFactoryInstance=null;
-
+    // This is private constructor to prevent usage of "new" keyword for singleton pattern
     private DocumentFactory() {
     }
 
@@ -125,7 +125,7 @@ class DocumentFactory implements AbstractDocumentFactory {
             uniqueDocumentFactoryInstance=new DocumentFactory();
         return uniqueDocumentFactoryInstance;
     }
-    // RETURN AN INSTANCE OF CONCRETE PRODUCT 
+    // Return an instance of concrete product
     @Override
     public Document createDocument(String name, String address) {
         Scanner scan = new Scanner(System.in);
