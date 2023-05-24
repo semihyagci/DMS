@@ -2,6 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 
+/* SEMİH YAĞCI
+   HAMZA ÇEKİRDEK
+   BÜLENT AKTAŞ
+   ALİ OZAN BAŞOĞUL
+   DOCUMENT MANAGEMENT SYSTEM(DMS)
+*/
+
 //Singleton-Facade
 //This class is responsible for making the application easy to use. There should be only one instance from it.
 public class DMS {
@@ -22,7 +29,7 @@ public class DMS {
         return uniqueDMSInstance;
     }
 
-    //Registeration method for user
+    //Registration method for user
     public void register() {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter your name:");
@@ -131,7 +138,7 @@ class Database {
 
     // Method for storing signed documents
     public static void storeSignedDocument(Document document) {
-        if (signedDocuments.contains(document.getName())) {
+        if (signedDocuments.contains(document)) {
             for (int i = 0; i < signedDocuments.size(); i++) {
                 if (signedDocuments.get(i).getName().equals(document.getName())) {
                     signedDocuments.set(i, document);
@@ -161,7 +168,7 @@ class Database {
         return AdministrationVacationDepartments;
     }
 
-    // Create Documents for Vacaiton Application
+    // Create Documents for Vacation Application
     public static void createDocumentsForVacationApplication(User user) {
         System.out.println("For this application; you need to get these 3 documents signed.\n");
         System.out.println("""

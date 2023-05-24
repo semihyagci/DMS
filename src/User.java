@@ -23,7 +23,7 @@ class User implements Observer {
         this.address = address;
     }
 
-    // Get user name
+    // Get username
     public String getName() {
         return name;
     }

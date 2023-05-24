@@ -7,7 +7,7 @@ interface Command {
 }
 
 //WorkOrder Class(Command of Command Pattern)
-//This class is responisble with forcing to apply operations on Documents at Departments.
+//This class is responsible with forcing to apply operations on Documents at Departments.
 abstract class WorkOrder implements Command {
     // Attributes of Workorder
     protected String name;
@@ -37,7 +37,7 @@ abstract class WorkOrder implements Command {
         return tempList;
     }
 
-    //Method for checking all documents are signed
+    //Method for checking all documents are signed vacation
     public static boolean checkingAllDocuments(WorkOrder workOrder) {
         boolean checkingAllDocuments = true;
         if (workOrder.documents != null) {
@@ -104,7 +104,7 @@ abstract class WorkOrder implements Command {
         } else {
             System.out.println("Your application forwarded to " + departments.get(0).getDepartmentName() + " for approval.\n");
             for (Department department : departments) {
-                department.deparmentCheckOperation(documents);
+                department.departmentCheckOperation(documents);
                 rejectedDocs = rejectedDocuments();
                 if (!rejectedDocs.isEmpty()) {
                     break;

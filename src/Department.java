@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // Department class (Receiver of the WorkOrder(Command))
-//This class is responisble with checking documents fields and signing documents regarding to some procedures which is mentioned on Project Document.
+//This class is responsible with checking documents fields and signing documents regarding some procedures which is mentioned on Project Document.
 abstract public class Department {
     // Attributes of Department
     protected String departmentName;
@@ -26,7 +26,7 @@ abstract public class Department {
 
     //The effect of the WorkOrder(ConcreteCommand) in the Receiver side. In that method it's checked the fields of the documents and if they are OK we send it to manager to sign it.
     //This method is Action method of Receiver in Command Pattern
-    public void deparmentCheckOperation(ArrayList<Document> documents) {
+    public void departmentCheckOperation(ArrayList<Document> documents) {
         for (Document document : documents) {
             Boolean status = document.verifyAllFields();
             if (status) {
