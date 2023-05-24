@@ -61,6 +61,7 @@ public abstract class Document {
     public String getName() {
         return name;
     }
+
     //Address getter
     public String getAddress() {
         return address;
@@ -79,13 +80,14 @@ class WordDocument extends Document {
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
-            System.out.println("Current manager has approved the WORD document with the name of "+name+".\n");
+            System.out.println("Current manager has approved the WORD document with the name of " + name + ".\n");
             storeSignedFile(this);
         } else {
-            System.out.println("Current manager has rejected the WORD document with the name of "+name+".\n");
+            System.out.println("Current manager has rejected the WORD document with the name of " + name + ".\n");
         }
         isSignedByManager = sign;
     }
+
     //Method for storing the WORD document differently.
     @Override
     public void storeSignedFile(Document document) {
@@ -94,6 +96,7 @@ class WordDocument extends Document {
     }
 
 }
+
 //Concrete Product(PDFDocument) of Factory
 class PDFDocument extends Document {
     //Constructor
@@ -106,13 +109,14 @@ class PDFDocument extends Document {
     @Override
     public void setSignedByManager(boolean sign) {
         if (sign) {
-            System.out.println("Current manager has approved the PDF document with the name of "+name+".\n");
+            System.out.println("Current manager has approved the PDF document with the name of " + name + ".\n");
             storeSignedFile(this);
         } else {
-            System.out.println("Current manager has rejected the PDF document with the name of "+name+".\n");
+            System.out.println("Current manager has rejected the PDF document with the name of " + name + ".\n");
         }
         isSignedByManager = sign;
     }
+
     //Method for storing the PDF document differently.
     @Override
     public void storeSignedFile(Document document) {
@@ -120,8 +124,9 @@ class PDFDocument extends Document {
         Database.storeSignedDocument(document);
     }
 }
+
 // AbstractCreator Interface
-interface AbstractDocumentFactory{
+interface AbstractDocumentFactory {
     // Create document method of Abstractfactory
     Document createDocument(String name, String address);
 }
@@ -131,16 +136,16 @@ interface AbstractDocumentFactory{
 //There should be only one instance of DocumentFactory for this system, we controlled the object creation of DocumentFactory with making this class Singleton.
 class DocumentFactory implements AbstractDocumentFactory {
     //Singleton's uniqueInstance
-    private static DocumentFactory uniqueDocumentFactoryInstance=null;
+    private static DocumentFactory uniqueDocumentFactoryInstance = null;
 
     // This is private constructor to prevent usage of "new" keyword for Singleton pattern
     private DocumentFactory() {
     }
 
     //Singleton's getInstance Method
-    public static DocumentFactory getDocumentFactoryInstance(){
-        if (uniqueDocumentFactoryInstance==null)
-            uniqueDocumentFactoryInstance=new DocumentFactory();
+    public static DocumentFactory getDocumentFactoryInstance() {
+        if (uniqueDocumentFactoryInstance == null)
+            uniqueDocumentFactoryInstance = new DocumentFactory();
         return uniqueDocumentFactoryInstance;
     }
 
@@ -149,7 +154,7 @@ class DocumentFactory implements AbstractDocumentFactory {
     public Document createDocument(String name, String address) {
         Scanner scan = new Scanner(System.in);
         while (true) {
-            System.out.print("Please specify the format of the document "+name+".\n");
+            System.out.print("Please specify the format of the document " + name + ".\n");
             String format = scan.next();
             //The equalsIgnoreCase() method compares two strings, ignoring lower case and upper case differences. This method returns true if the strings are equal, and false if not.
             if (format.equalsIgnoreCase("wORd")) {

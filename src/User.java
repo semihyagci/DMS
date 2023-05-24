@@ -2,6 +2,7 @@
 interface Observer {
     void UpdateDocument(Document document);
 }
+
 // User class(Invoker of Command Pattern)
 // This class invokes the WorkOrder workflow.
 class User implements Observer {
@@ -17,18 +18,21 @@ class User implements Observer {
 
     // Constructor of USer
     public User(String name, int age, String address) {
-        this.name=name;
-        this.age=age;
-        this.address=address;
+        this.name = name;
+        this.age = age;
+        this.address = address;
     }
+
     // Get user name
     public String getName() {
         return name;
     }
+
     // Get user age
     public int getAge() {
         return age;
     }
+
     // Get user address
     public String getAddress() {
         return address;

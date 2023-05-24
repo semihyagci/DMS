@@ -5,6 +5,7 @@ import java.util.Stack;
 interface Command {
     void startOperationOfWorkOrder();
 }
+
 //WorkOrder Class(Command of Command Pattern)
 //This class is responisble with forcing to apply operations on Documents at Departments.
 abstract class WorkOrder implements Command {
@@ -14,7 +15,7 @@ abstract class WorkOrder implements Command {
     protected User workorderCreator;
     protected Stack<Department> departments;
     protected ArrayList<Document> documents;
-    protected static ArrayList<Document> rejectedDocuments=new ArrayList<>();
+    protected static ArrayList<Document> rejectedDocuments = new ArrayList<>();
 
     //Constructor
     public WorkOrder(String name, User workorderCreator) {
@@ -23,9 +24,10 @@ abstract class WorkOrder implements Command {
         this.workorderCreator = workorderCreator;
         subWorkOrders = new ArrayList<>();
     }
+
     // Method for creating and returning an Arraylist of rejected documents by managers
     public ArrayList<Document> rejectedDocuments() {
-        ArrayList<Document> tempList=new ArrayList<>();
+        ArrayList<Document> tempList = new ArrayList<>();
         for (Document document : documents) {
             if (!document.isSignedByManager()) {
                 rejectedDocuments.add(document);
@@ -34,10 +36,11 @@ abstract class WorkOrder implements Command {
         }
         return tempList;
     }
+
     //Method for checking all documents are signed
     public static boolean checkingAllDocuments(WorkOrder workOrder) {
         boolean checkingAllDocuments = true;
-        if (workOrder.documents!=null){
+        if (workOrder.documents != null) {
             for (int j = 0; j < workOrder.documents.size(); j++) {
                 if (!workOrder.documents.get(j).isSignedByManager()) {
                     checkingAllDocuments = false;
@@ -45,9 +48,9 @@ abstract class WorkOrder implements Command {
                 }
             }
         }
-        if (workOrder.subWorkOrders!=null){
-            for (WorkOrder subWorkOrder: workOrder.subWorkOrders){
-                for (int i=0;i<subWorkOrder.documents.size();i++){
+        if (workOrder.subWorkOrders != null) {
+            for (WorkOrder subWorkOrder : workOrder.subWorkOrders) {
+                for (int i = 0; i < subWorkOrder.documents.size(); i++) {
                     if (!subWorkOrder.documents.get(i).isSignedByManager()) {
                         checkingAllDocuments = false;
                         break;
@@ -59,14 +62,17 @@ abstract class WorkOrder implements Command {
         }
         return checkingAllDocuments;
     }
+
     // Get name of workorder
     public String getName() {
         return name;
     }
+
     // Add subworkorder to workorder
     public void Add(WorkOrder d) {
         subWorkOrders.add(d);
     }
+
     // Remove subworkorder from workorder
     public void Remove(WorkOrder d) {
         for (int i = 0; i < subWorkOrders.size(); i++) {
@@ -76,6 +82,7 @@ abstract class WorkOrder implements Command {
             }
         }
     }
+
     // Display the workorder structure like a tree structure
     public void Display(int indent) {
         for (int i = 1; i <= indent; i++) System.out.print("-");
@@ -84,6 +91,7 @@ abstract class WorkOrder implements Command {
             subWorkOrder.Display(indent + 2);
         }
     }
+
     //Method for starting the related operations on the related WorkOrder
     //This method is Execute method of Command Pattern
     @Override
@@ -113,6 +121,7 @@ abstract class WorkOrder implements Command {
     }
 
 }
+
 // ConcreteWorkOrder1 Class
 //This class is responsible with starting Academician Vacation Application WorkOrder scenario in a university.
 class VacationApplicationWorkOrder extends WorkOrder {
@@ -121,6 +130,7 @@ class VacationApplicationWorkOrder extends WorkOrder {
         Database.createDocumentsForVacationApplication(workorderCreator);
     }
 }
+
 // ConcreteWorkOrder2 Class
 //This class is a SubWorkOrder of VacationApplicationWorkOrder
 class VacationApplicationHRWorkOrder extends WorkOrder {
@@ -134,6 +144,7 @@ class VacationApplicationHRWorkOrder extends WorkOrder {
     }
 
 }
+
 // ConcreteWorkOrder3 Class
 //This class is a SubWorkOrder of VacationApplicationWorkOrder
 class VacationApplicationAdministrationWorkOrder extends WorkOrder {
@@ -147,6 +158,7 @@ class VacationApplicationAdministrationWorkOrder extends WorkOrder {
     }
 
 }
+
 // ConcreteWorkOrder4 Class
 //This class is responsible with starting Retirement Application WorkOrder scenario in a Social Security Agency.
 class RetirementApplicationWorkOrder extends WorkOrder {
@@ -162,6 +174,7 @@ class RetirementApplicationWorkOrder extends WorkOrder {
         }
     }
 }
+
 // ConcreteWorkOrder5 Class
 //This class is a SubWorkOrder of RetirementApplicationWorkOrder
 class RetirementApplicationSSAWorkOrder extends WorkOrder {

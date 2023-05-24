@@ -10,22 +10,41 @@ public class DMS {
     private User user;
 
     //This is private constructor to prevent usage of "new" keyword for Singleton pattern
-    private DMS(User user) {
-        this.user = user;
-        System.out.println("***  Document Management System  ***\n");
-        System.out.println("Hello " + this.user.getName() + " welcome to DMS...\n");
+    private DMS() {
+        System.out.println("WELCOME TO DOCUMENT MANAGEMENT SYSTEM\n");
+        System.out.println("YOU ARE DIRECTED TO REGISTRATION PROCESS\n");
     }
 
     //Singleton getInstance method.
-    public static DMS getDMSInstance(User user) {
+    public static DMS getDMSInstance() {
         if (uniqueDMSInstance == null)
-            uniqueDMSInstance = new DMS(user);
+            uniqueDMSInstance = new DMS();
         return uniqueDMSInstance;
     }
 
+    //Registeration method for user
+    public void register() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your name:");
+        String name = input.next();
+        System.out.println("Enter your age:");
+        int age = input.nextInt();
+        System.out.println("Enter your address");
+        String address = input.next();
+
+        if (name != null && address != null) {
+            User user = new User(name, age, address);
+            this.user = user;
+            System.out.println("***  Document Management System  ***\n");
+            System.out.println("Hello " + this.user.getName() + " welcome to DMS...\n");
+        } else {
+            System.out.println("Your inputs are invalid please try again.");
+            register();
+        }
+    }
 
     // DMS's creating the WorkOrder of the selected application method.
-    public void createApplication(User user) {
+    public void createApplication() {
         Scanner input = new Scanner(System.in);
         WorkOrder workOrder;
         System.out.println("Press 1 for Vacation Application\nPress 2 for Retirement Application\nPress -1 for exit.");
@@ -46,9 +65,9 @@ public class DMS {
                 user.sendWorkOrder(workOrder);
                 boolean check = WorkOrder.checkingAllDocuments(workOrder);
                 if (check) {
-                    System.out.println("Your application is completely approved!");
+                    System.out.println("Your application: " + workOrder.getName() + " is completely approved!");
                 } else {
-                    System.out.println("We are sorry for inform you that your application: "+workOrder.getName()+" has been rejected because of these documents.");
+                    System.out.println("We are sorry for inform you that your application: " + workOrder.getName() + " has been rejected because of these documents.");
                     System.out.println("---------------------------------------------------");
                     for (Document document : WorkOrder.rejectedDocuments) {
                         System.out.println(document.getName());
@@ -57,7 +76,7 @@ public class DMS {
 
                 }
                 break;
-            } 
+            }
             // Choosing Retirement Application
             else if (choice == 2) {
                 workOrder = new RetirementApplicationWorkOrder("Retirement Request", user);
@@ -69,9 +88,9 @@ public class DMS {
                 user.sendWorkOrder(workOrder);
                 boolean check = WorkOrder.checkingAllDocuments(workOrder);
                 if (check) {
-                    System.out.println("Your work order is completely approved!");
+                    System.out.println("Your application: " + workOrder.getName() + " is completely approved!");
                 } else {
-                    System.out.println("We are sorry for inform you that your application: "+workOrder.getName()+" has been rejected because of these documents:");
+                    System.out.println("We are sorry for inform you that your application: " + workOrder.getName() + " has been rejected because of these documents:");
                     System.out.println("---------------------------------------------------");
                     for (Document document : WorkOrder.rejectedDocuments) {
                         System.out.println(document.getName());
@@ -87,11 +106,12 @@ public class DMS {
 
         }
     }
+
     //Main Method
     public static void main(String[] args) {
-        User user = new User("Semih", 19, "Buca");
-        DMS dms = DMS.getDMSInstance(user);
-        dms.createApplication(user);
+        DMS dms = DMS.getDMSInstance();
+        dms.register();
+        dms.createApplication();
     }
 
 }
@@ -121,12 +141,14 @@ class Database {
             signedDocuments.add(document);
         }
     }
+
     //Create HR Departments for Vacation Application
     public static Stack<Department> createHrDepartmentsForVacationApplication() {
         Department hr = new HumanResources("Human Resources", new Manager("Didem Tiknaz"));
         HRVacationDepartments.add(hr);
         return HRVacationDepartments;
     }
+
     //Create Administration Departments for Vacation Application
     public static Stack<Department> createAdministrationDepartmentsForVacationApplication() {
         Department softwareEngineeringDepartment = new EngineeringDepartment("Software Engineering Department", new Manager("Senem Kumova Metin"));
@@ -156,6 +178,7 @@ class Database {
         VacationDocuments.add(doc2);
         VacationDocuments.add(doc3);
     }
+
     // Parsing the documents for vacation application
     public static ArrayList<Document> dividingSpecificPartOfTheVacationDocumentsList(int firstIndex, int lastIndex) {
         ArrayList<Document> temp = new ArrayList<>();
@@ -170,7 +193,8 @@ class Database {
         Department publicRelations = new SSAPublicRelation("Public Relation Department", new Manager("Yasin Çolak"));
         PublicRelationRetirementDepartments.add(publicRelations);
         return PublicRelationRetirementDepartments;
-    }   
+    }
+
     // Create SSA Departments for EYT Application
     public static Stack<Department> createSSADepartmentsForRetirementApplication() {
         Department paymentDepartment = new SSARetirementPremiumPaymentControl("Premium Payment Department", new Manager("Hasan Yücetaş"));
@@ -180,6 +204,7 @@ class Database {
         SSARetirementDepartments.add(insuredDayControlDepartment);
         return SSARetirementDepartments;
     }
+
     // Create Documents for EYT Application
     public static void createDocumentsForRetirementApplication(User user) {
         System.out.println("For this application; you need to get these 3 documents signed.\n");

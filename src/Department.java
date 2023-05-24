@@ -7,15 +7,18 @@ abstract public class Department {
     // Attributes of Department
     protected String departmentName;
     protected Manager manager;
+
     // Constructor
     public Department(String departmentName, Manager manager) {
         this.departmentName = departmentName;
         this.manager = manager;
     }
+
     // Return the manager
     public Manager getManager() {
         return manager;
     }
+
     // Returns the departments name
     public String getDepartmentName() {
         return departmentName;
@@ -35,15 +38,18 @@ abstract public class Department {
         }
     }
 }
+
 //Manager class
 //This class is responsible with signing document if the document is passed through the Department's Action method.
 class Manager {
     //Attributes for Manager
     private String name;
+
     // Manager constructor
     public Manager(String name) {
         this.name = name;
     }
+
     // Signing Method for Manager
     public void signingByManager(Document document) {
         Scanner scan = new Scanner(System.in);
@@ -78,12 +84,14 @@ class Manager {
         }
     }
 }
+
 // Concrete Departments for Vacation Application
 class EngineeringDepartment extends Department {
     public EngineeringDepartment(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
+
 // Concrete Departments for Vacation Application
 class EngineeringDeanery extends Department {
     public EngineeringDeanery(String departmentName, Manager manager) {
@@ -97,6 +105,7 @@ class Rectorate extends Department {
         super(departmentName, manager);
     }
 }
+
 // Concrete Departments for Vacation Application
 class HumanResources extends Department {
     public HumanResources(String departmentName, Manager manager) {
@@ -110,12 +119,14 @@ class SSAPublicRelation extends Department {
         super(departmentName, manager);
     }
 }
+
 // Concrete Departments for Retirement Application
 class SSARetirementPremiumPaymentControl extends Department {
     public SSARetirementPremiumPaymentControl(String departmentName, Manager manager) {
         super(departmentName, manager);
     }
 }
+
 // Concrete Departments for Retirement Application
 class SSARetirementInsuredDayControl extends Department {
     public SSARetirementInsuredDayControl(String departmentName, Manager manager) {
